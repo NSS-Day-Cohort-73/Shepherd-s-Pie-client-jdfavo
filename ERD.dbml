@@ -1,0 +1,48 @@
+// Shepherd's Pies ERD for Giuseppe's Order Management System
+
+// Orders Table
+Table orders {
+  id int [pk, increment, note: "Unique identifier for each order"]
+  table_number int [note: "Table number for dine-in orders, null if delivery"]
+  is_delivery boolean [default: false, note: "Indicates if the order is for delivery"]
+  tip decimal(5,2) [note: "Tip amount provided for the order"]
+  total_cost decimal(10,2) [note: "Total cost of the order based on pizzas and delivery surcharge"]
+  created_at datetime [note: "Date and time when the order was placed"]
+  employee_id int [ref: > employees.id, note: "ID of employee who took the order"]
+  deliverer_id int [ref: > employees.id, null, note: "ID of employee assigned for delivery, if any"]
+}
+
+// Pizzas Table
+Table pizzas {
+  id int [pk, increment, note: "Unique identifier for each pizza"]
+  order_id int [ref: > orders.id, note: "Order to which the pizza belongs"]
+  size varchar [note: "Size of the pizza (small, medium, large)"]
+  cheese varchar [note: "Type of cheese on the pizza (e.g., Buffalo Mozzarella, Four Cheese, Vegan, None)"]
+  sauce varchar [note: "Type of sauce on the pizza (e.g., Marinara, Arrabbiata, Garlic White, None)"]
+  base_price decimal(5,2) [note: "Base price of the pizza depending on size"]
+  total_price decimal(5,2) [note: "Total price of pizza including toppings"]
+}
+
+// Employees Table
+Table employees {
+  id int [pk, increment, note: "Unique identifier for each employee"]
+  name varchar [note: "Full name of the employee"]
+  role varchar [note: "Role of the employee in the system (staff, admin)"]
+  phone varchar [note: "Contact phone number for the employee"]
+  email varchar [note: "Email of the employee"]
+  address varchar [note: "Address for notifications and records"]
+}
+
+// Toppings Table
+Table toppings {
+  id int [pk, increment, note: "Unique identifier for each topping type"]
+  name varchar [unique, note: "Name of the topping"]
+  price decimal(5,2) [note: "Price of the topping per pizza"]
+}
+
+// Pizza Toppings (Join Table for Many-to-Many Relationship)
+Table pizza_toppings {
+  pizza_id int [ref: > pizzas.id, note: "ID of pizza receiving the topping"]
+  topping_id int [ref: > toppings.id, note: "ID of topping applied to the pizza"]
+  primary key (pizza_id, topping_id)
+}
