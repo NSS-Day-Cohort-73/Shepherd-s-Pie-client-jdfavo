@@ -1,0 +1,66 @@
+{
+  "pizzas": [
+    {
+      "size": "small",
+      "diameter": "10",
+      "price": 10.0
+    },
+    {
+      "size": "medium",
+      "diameter": "14",
+      "price": 12.0
+    },
+    {
+      "size": "large",
+      "diameter": "18",
+      "price": 15.0
+    }
+  ],
+  "cheeseOptions": [
+    "Buffalo Mozzarella",
+    "Four Cheese",
+    "Vegan",
+    "None (cheeseless)"
+  ],
+  "sauceOptions": [
+    "Marinara",
+    "Arrabbiata",
+    "Garlic White",
+    "None (sauceless pizza)"
+  ],
+  "toppings": [
+    {
+      "name": "sausage",
+      "price": 0.5
+    },
+    {
+      "name": "pepperoni",
+      "price": 0.5
+    },
+    {
+      "name": "mushroom",
+      "price": 0.5
+    },
+    {
+      "name": "onion",
+      "price": 0.5
+    },
+    {
+      "name": "green pepper",
+      "price": 0.5
+    },
+    {
+      "name": "black olive",
+      "price": 0.5
+    },
+    {
+      "name": "basil",
+      "price": 0.5
+    },
+    {
+      "name": "extra cheese",
+      "price": 0.5
+    }
+  ],
+  "deliverySurcharge": 5.0
+}
