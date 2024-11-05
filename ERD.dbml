@@ -16,12 +16,13 @@ Table orders {
 Table pizzas {
   id int [pk, increment, note: "Unique identifier for each pizza"]
   order_id int [ref: > orders.id, note: "Order to which the pizza belongs"]
-  size varchar [note: "Size of the pizza (small, medium, large)"]
-  cheese varchar [note: "Type of cheese on the pizza (e.g., Buffalo Mozzarella, Four Cheese, Vegan, None)"]
-  sauce varchar [note: "Type of sauce on the pizza (e.g., Marinara, Arrabbiata, Garlic White, None)"]
+  size_id int [ref: > sizes.id, note: "ID of the pizza size"]
+  cheese_id int [ref: > cheeses.id, note: "ID of the cheese type for the pizza"]
+  sauce_id int [ref: > sauces.id, note: "ID of the sauce for the pizza"]
   base_price decimal(5,2) [note: "Base price of the pizza depending on size"]
   total_price decimal(5,2) [note: "Total price of pizza including toppings"]
 }
+
 
 // Employees Table
 Table employees {
@@ -45,4 +46,27 @@ Table pizza_toppings {
   pizza_id int [ref: > pizzas.id, note: "ID of pizza receiving the topping"]
   topping_id int [ref: > toppings.id, note: "ID of topping applied to the pizza"]
   primary key (pizza_id, topping_id)
+}
+
+Table sizes {
+  id int [pk, increment, note: "Unique identifier for each pizza size"]
+  name varchar [note: "Size name (e.g., small, medium, large)"]
+  diameter int [note: "Diameter of the pizza in inches"]
+  price decimal(5,2) [note: "Price of the pizza based on the size"]
+}
+
+Table cheeses {
+  id int [pk, increment, note: "Unique identifier for each cheese option"]
+  name varchar [unique, note: "Name of the cheese option (e.g., Buffalo Mozzarella, Four Cheese, etc.)"]
+}
+
+Table sauces {
+  id int [pk, increment, note: "Unique identifier for each sauce option"]
+  name varchar [unique, note: "Name of the sauce option (e.g., Marinara, Arrabbiata, etc.)"]
+}
+
+Table toppings {
+  id int [pk, increment, note: "Unique identifier for each topping type"]
+  name varchar [unique, note: "Name of the topping"]
+  price decimal(5,2) [note: "Price of the topping per pizza"]
 }
