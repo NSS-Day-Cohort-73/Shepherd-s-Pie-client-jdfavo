@@ -1,66 +1,142 @@
 {
   "pizzas": [
-    {
-      "size": "small",
-      "diameter": "10",
-      "price": 10.0
-    },
-    {
-      "size": "medium",
-      "diameter": "14",
-      "price": 12.0
-    },
-    {
-      "size": "large",
-      "diameter": "18",
-      "price": 15.0
-    }
+    { "id": 1, "size": "small", "diameter": "10", "price": 10.0 },
+    { "id": 2, "size": "medium", "diameter": "14", "price": 12.0 },
+    { "id": 3, "size": "large", "diameter": "18", "price": 15.0 }
   ],
   "cheeseOptions": [
-    "Buffalo Mozzarella",
-    "Four Cheese",
-    "Vegan",
-    "None (cheeseless)"
+    { "id": 1, "name": "Buffalo Mozzarella" },
+    { "id": 2, "name": "Four Cheese" },
+    { "id": 3, "name": "Vegan" },
+    { "id": 4, "name": "None (cheeseless)" }
   ],
   "sauceOptions": [
-    "Marinara",
-    "Arrabbiata",
-    "Garlic White",
-    "None (sauceless pizza)"
+    { "id": 1, "name": "Marinara" },
+    { "id": 2, "name": "Arrabbiata" },
+    { "id": 3, "name": "Garlic White" },
+    { "id": 4, "name": "None (sauceless pizza)" }
   ],
   "toppings": [
-    {
-      "name": "sausage",
-      "price": 0.5
-    },
-    {
-      "name": "pepperoni",
-      "price": 0.5
-    },
-    {
-      "name": "mushroom",
-      "price": 0.5
-    },
-    {
-      "name": "onion",
-      "price": 0.5
-    },
-    {
-      "name": "green pepper",
-      "price": 0.5
-    },
-    {
-      "name": "black olive",
-      "price": 0.5
-    },
-    {
-      "name": "basil",
-      "price": 0.5
-    },
-    {
-      "name": "extra cheese",
-      "price": 0.5
-    }
+    { "id": 1, "name": "sausage", "price": 0.5 },
+    { "id": 2, "name": "pepperoni", "price": 0.5 },
+    { "id": 3, "name": "mushroom", "price": 0.5 },
+    { "id": 4, "name": "onion", "price": 0.5 },
+    { "id": 5, "name": "green pepper", "price": 0.5 },
+    { "id": 6, "name": "black olive", "price": 0.5 },
+    { "id": 7, "name": "basil", "price": 0.5 },
+    { "id": 8, "name": "extra cheese", "price": 0.5 }
   ],
-  "deliverySurcharge": 5.0
+  "deliverySurcharge": 5.0,
+  "orders": [
+    {
+      "id": 1,
+      "customerName": "John Smith",
+      "phoneNumber": "555-0101",
+      "isDelivery": true,
+      "deliveryAddress": "123 Main St, Apt 4B",
+      "orderDate": "2024-11-05T12:30:00",
+      "items": [
+        {
+          "id": 1,
+          "size": "large",
+          "cheese": "Buffalo Mozzarella",
+          "sauce": "Marinara",
+          "toppings": [2, 3, 8],
+          "basePrice": 15.0,
+          "toppingsPrice": 1.5,
+          "totalPrice": 16.5
+        },
+        {
+          "id": 2,
+          "size": "medium",
+          "cheese": "Four Cheese",
+          "sauce": "Garlic White",
+          "toppings": [1, 4, 5],
+          "basePrice": 12.0,
+          "toppingsPrice": 1.5,
+          "totalPrice": 13.5
+        }
+      ],
+      "subtotal": 30.0,
+      "deliveryFee": 5.0,
+      "total": 35.0
+    },
+    {
+      "id": 2,
+      "customerName": "Sarah Johnson",
+      "phoneNumber": "555-0102",
+      "isDelivery": false,
+      "tableNumber": 4,
+      "orderDate": "2024-11-05T13:15:00",
+      "items": [
+        {
+          "id": 3,
+          "size": "small",
+          "cheese": "Vegan",
+          "sauce": "Marinara",
+          "toppings": [3, 5, 6, 7],
+          "basePrice": 10.0,
+          "toppingsPrice": 2.0,
+          "totalPrice": 12.0
+        }
+      ],
+      "subtotal": 12.0,
+      "total": 12.0
+    },
+    {
+      "id": 3,
+      "customerName": "Maria Garcia",
+      "phoneNumber": "555-0103",
+      "isDelivery": true,
+      "deliveryAddress": "789 Oak Road",
+      "orderDate": "2024-11-05T14:00:00",
+      "items": [
+        {
+          "id": 4,
+          "size": "large",
+          "cheese": "Buffalo Mozzarella",
+          "sauce": "Arrabbiata",
+          "toppings": [1, 4, 7],
+          "basePrice": 15.0,
+          "toppingsPrice": 1.5,
+          "totalPrice": 16.5
+        },
+        {
+          "id": 5,
+          "size": "small",
+          "cheese": "Four Cheese",
+          "sauce": "Marinara",
+          "toppings": [2, 8],
+          "basePrice": 10.0,
+          "toppingsPrice": 1.0,
+          "totalPrice": 11.0
+        }
+      ],
+      "subtotal": 27.5,
+      "deliveryFee": 5.0,
+      "total": 32.5
+    },
+    {
+      "id": 4,
+      "customerName": "David Wilson",
+      "phoneNumber": "555-0104",
+      "isDelivery": false,
+      "tableNumber": 7,
+      "orderDate": "2024-11-05T14:45:00",
+      "items": [
+        {
+          "id": 6,
+          "size": "medium",
+          "cheese": "Four Cheese",
+          "sauce": "Garlic White",
+          "toppings": [3, 6, 7, 8],
+          "basePrice": 12.0,
+          "toppingsPrice": 2.0,
+          "totalPrice": 14.0
+        }
+      ],
+      "subtotal": 14.0,
+      "total": 14.0
+    }
+  ]
 }
