@@ -23,7 +23,7 @@ export const OrderList = () => {
         <ul>
           {orders.map((order) => (
             <li key={order.id}>
-                Order #{order.id} - {order.isDelivery ? 'Delivery' : `Table ${order.tableNumber}`}
+              Order #{order.id} - {order.isDelivery ? 'Delivery' : `Table ${order.tableNumber}`}
               <p>
                 Total: ${order.total.toFixed(2)} | Placed at:{" "}
                 {new Date(order.orderDate).toLocaleTimeString()}
@@ -38,4 +38,3 @@ export const OrderList = () => {
     </div>
   );
 };
-
