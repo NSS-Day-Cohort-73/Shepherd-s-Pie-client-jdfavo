@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { GetOrderById } from "../../services/orderService";
+import { getToppings } from "../../services/orderService";
 import "./Order.css"; // 
 
 export const OrderDetails = () => {
@@ -13,7 +14,7 @@ export const OrderDetails = () => {
   useEffect(() => {
     const fetchOrder = async () => {
       const orderData = await GetOrderById(orderId);
-      const toppingsData = await GetToppings();
+      const toppingsData = await getToppings();
       setOrder(orderData);
       setToppings(toppingsData);
     };
