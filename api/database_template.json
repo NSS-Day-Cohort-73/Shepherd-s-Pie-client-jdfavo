@@ -26,7 +26,12 @@
     { "id": 7, "name": "basil", "price": 0.5 },
     { "id": 8, "name": "extra cheese", "price": 0.5 }
   ],
-  "deliverySurcharge": 5.0,
+  "deliverySurcharge": [
+    {
+      "amount": 10,
+      "currency": "USD"
+    }
+  ],
   "orders": [
     {
       "id": 1,
