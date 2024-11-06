@@ -2,8 +2,9 @@ import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import { Login } from "./components/auth/Login";
 import { Register } from "./components/auth/Register";
-import { Authorized } from "./views/Authorized";
-import { ApplicationViews } from "./views/ApplicationView";
+import { ApplicationViews } from "./views/ApplicationView.jsx";
+import { Authorized } from "./Authorized";
+
 
 function App() {
   return (

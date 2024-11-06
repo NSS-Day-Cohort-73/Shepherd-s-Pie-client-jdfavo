@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { NavBar } from "../components/nav/NavBar";
+import { OrderDetails } from "../components/orders/OrderDetails";
 import { Route, Routes, Navigate, useNavigate } from "react-router-dom";
 import { OrderList } from "../components/orders/OrderList.jsx";
 
@@ -41,6 +42,7 @@ export const ApplicationViews = () => {
           </>
         }
       />
+      <Route path="/orders/:orderId" element={<OrderDetails />} />
 
       {/* Admin Route - only accessible if user is an admin */}
       {isAdmin ? (

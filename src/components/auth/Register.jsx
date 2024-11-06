@@ -9,7 +9,8 @@ export const Register = (props) => {
     fullName: "",
     isStaff: false,
   });
-  let navigate = useNavigate();
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const registerNewUser = () => {
     createUser(customer).then((createdUser) => {
@@ -31,10 +32,9 @@ export const Register = (props) => {
     e.preventDefault();
     getUserByEmail(customer.email).then((response) => {
       if (response.length > 0) {
-        // Duplicate email. No good.
-        window.alert("Account with that email address already exists");
+        setError("Account with that email address already exists");
       } else {
-        // Good email, create user.
+        setError(""); // Clear error if no duplicate found
         registerNewUser();
       }
     });
@@ -42,15 +42,16 @@ export const Register = (props) => {
 
   const updateCustomer = (evt) => {
     const copy = { ...customer };
-    copy[evt.target.id] = evt.target.value;
+    copy[evt.target.id] = evt.target.type === "checkbox" ? evt.target.checked : evt.target.value;
     setCustomer(copy);
   };
 
   return (
     <main style={{ textAlign: "center" }}>
       <form className="form-login" onSubmit={handleRegister}>
-        <h1>Sheperd's Pie Pizza</h1>
+        <h1>Shepherd's Pie Pizza</h1>
         <h2>Please Register</h2>
+        {error && <p className="error-message">{error}</p>}
         <fieldset>
           <div className="form-group">
             <input
@@ -80,11 +81,7 @@ export const Register = (props) => {
           <div className="form-group">
             <label>
               <input
-                onChange={(evt) => {
-                  const copy = { ...customer };
-                  copy.isStaff = evt.target.checked;
-                  setCustomer(copy);
-                }}
+                onChange={updateCustomer}
                 type="checkbox"
                 id="isStaff"
               />
