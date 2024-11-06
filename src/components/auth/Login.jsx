@@ -12,14 +12,20 @@ export const Login = () => {
     e.preventDefault();
 
     getUserByEmail(email).then((foundUsers) => {
+      console.log("Found users:", foundUsers);
+
       if (foundUsers.length === 1) {
         const user = foundUsers[0];
         localStorage.setItem(
           "pizza_user",
           JSON.stringify({
             id: user.id,
-            isStaff: user.isStaff,
+            isAdmin: user.isAdmin,
           })
+        );
+        console.log(
+          "Stored user in localStorage:",
+          JSON.parse(localStorage.getItem("pizza_user"))
         );
 
         navigate("/");
@@ -63,3 +69,5 @@ export const Login = () => {
     </main>
   );
 };
+
+//isStaff: user.isStaff,

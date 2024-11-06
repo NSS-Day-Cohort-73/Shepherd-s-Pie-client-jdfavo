@@ -8,9 +8,13 @@ export const NavBar = () => {
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
-    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-    setIsAdmin(currentUser.isAdmin);
+    const currentUser = JSON.parse(localStorage.getItem("pizza-user"));
+    if (currentUser && currentUser.isAdmin !== undefined) {
+      setIsAdmin(currentUser.isAdmin);
+    }
   }, []);
+
+  console.log("isAdmin state:", isAdmin);
 
   return (
     <ul className="navbar">
@@ -33,3 +37,37 @@ export const NavBar = () => {
     </ul>
   );
 };
+
+//   useEffect(() => {
+//     const currentUser = JSON.parse(localStorage.getItem("pizza-user"));
+//     console.log("Current user:", currentUser);
+
+//     if (currentUser && currentUser.isAdmin !== undefined) {
+//       console.log("isAdmin value:", currentUser.isAdmin);
+//       setIsAdmin(currentUser.isAdmin);
+//     } else {
+//       console.error("Could not retrieve isAdmin property from currentUser");
+//     }
+//   }, []);
+
+//   console.log("isAdmin state:", isAdmin);
+
+// useEffect(() => {
+//     try {
+//       const currentUser = JSON.parse(localStorage.getItem("pizza-user"));
+//       if (currentUser) {
+//         if (currentUser.isAdmin !== undefined) {
+//           console.log("isAdmin value:", currentUser.isAdmin);
+//           setIsAdmin(currentUser.isAdmin);
+//         } else {
+//           console.error("Could not retrieve isAdmin property from currentUser");
+//         }
+//       } else {
+//         console.log("Current user is null");
+//       }
+//     } catch (error) {
+//       console.error("Error handling NavBar component:", error);
+//       // Display a fallback or error message to the user
+//       return <div>An error occurred while loading the navigation bar.</div>;
+//     }
+//   }, []);
