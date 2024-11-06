@@ -8,15 +8,25 @@ export const OrderDetails = () => {
   const { orderId } = useParams();
   const navigate = useNavigate();
   const [order, setOrder] = useState(null);
+  const [toppings, setToppings] = useState([]);
 
   useEffect(() => {
     const fetchOrder = async () => {
       const orderData = await GetOrderById(orderId);
+      const toppingsData = await GetToppings();
       setOrder(orderData);
+      setToppings(toppingsData);
     };
 
     fetchOrder();
   }, [orderId]);
+
+  const getToppingNames = (toppingIds) => {
+    return toppingIds.map(id => {
+      const topping = toppings.find(top => top.id == id);
+      return topping ? topping.name : "Unknown";
+    });
+  };
 
   if (!order) return <p>Loading order details...</p>;
 
@@ -32,7 +42,7 @@ export const OrderDetails = () => {
               <p><strong>Size:</strong> {item.size}</p>
               <p><strong>Cheese:</strong> {item.cheese}</p>
               <p><strong>Sauce:</strong> {item.sauce}</p>
-              <p><strong>Toppings:</strong> {item.toppings.join(", ")}</p>
+              <p><strong>Toppings:</strong> {getToppingNames(item.toppings).join(", ")}</p>
             </div>
             <div className="pizza-actions">
               <button className="update-btn">Update</button>

@@ -8,3 +8,7 @@ export const GetOrders = async () => {
     return response.json();
   };
   
+  export const GetToppings = async () => {
+    const response = await fetch("http://localhost:8088/toppings");
+    return await response.json();
+  };
