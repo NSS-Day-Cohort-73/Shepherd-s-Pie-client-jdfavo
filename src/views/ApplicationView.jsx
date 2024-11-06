@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { OrderDetails } from "../components/orders/OrderDetails";
 import { Route, Routes, Navigate, useNavigate } from "react-router-dom";
 import { OrderList } from "../components/orders/OrderList.jsx";
+import { EmployeeList } from "../components/employees/employeeList.jsx";
 
 export const ApplicationViews = () => {
   const [currentUser, setCurrentUser] = useState(null);
@@ -51,6 +52,7 @@ export const ApplicationViews = () => {
             <>
               <div>Admin Dashboard</div>
               {/* Admin-specific content can be added here */}
+              <EmployeeList />
             </>
           }
         />
