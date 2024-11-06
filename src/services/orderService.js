@@ -28,3 +28,8 @@ export const getToppings = () => {
 export const getDeliveryStatus = () => {
   return fetch(` http://localhost:8088/config`).then((res) => res.json());
 };
+
+export const updateOrderById = async (id) => {
+  const response = await fetch(`http://localhost:8088/orders/${id}`);
+  return response.json();
+};
