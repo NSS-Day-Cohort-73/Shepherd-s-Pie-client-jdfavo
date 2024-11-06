@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import { OrderList } from "../components/orders/OrderList";
+import { OrderDetails } from "../components/orders/OrderDetails";
 
 export const ApplicationViews = () => {
   const [currentUser, setCurrentUser] = useState({});
@@ -18,11 +19,12 @@ export const ApplicationViews = () => {
         path="/"
         element={
           <>
-            <div> Shepard's Pie</div>
+            <div>Shepard's Pie</div>
             <OrderList />
           </>
         }
-      ></Route>
+      />
+      <Route path="/orders/:orderId" element={<OrderDetails />} />
     </Routes>
   );
 };
