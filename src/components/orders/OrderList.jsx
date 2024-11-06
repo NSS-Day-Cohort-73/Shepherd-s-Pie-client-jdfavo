@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { GetOrders } from '../../services/orderService';
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { GetOrders } from "../../services/orderService";
 
 export const OrderList = () => {
-  const [orders, setOrders] = useState([]); 
+  const [orders, setOrders] = useState([]);
 
   useEffect(() => {
     const loadOrders = async () => {
@@ -23,7 +23,8 @@ export const OrderList = () => {
         <ul>
           {orders.map((order) => (
             <li key={order.id}>
-              Order #{order.id} - {order.isDelivery ? 'Delivery' : `Table ${order.tableNumber}`}
+              Order #{order.id} -{" "}
+              {order.isDelivery ? "Delivery" : `Table ${order.tableNumber}`}
               <p>
                 Total: ${order.total.toFixed(2)} | Placed at:{" "}
                 {new Date(order.orderDate).toLocaleTimeString()}
