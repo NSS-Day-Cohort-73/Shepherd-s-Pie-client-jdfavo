@@ -15,7 +15,7 @@ export const Login = () => {
       if (foundUsers.length === 1) {
         const user = foundUsers[0];
         localStorage.setItem(
-          "",
+          "pizza_user",
           JSON.stringify({
             id: user.id,
             isStaff: user.isStaff,
@@ -33,7 +33,7 @@ export const Login = () => {
     <main className="container-login">
       <section>
         <form className="form-login" onSubmit={handleLogin}>
-          <h1></h1>
+          <h1>Shepherd's Pie Pizza</h1>
           <h2>Please sign in</h2>
           <fieldset>
             <div className="form-group">

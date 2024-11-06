@@ -1,14 +1,31 @@
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
-import { OrderList } from './components/orders/OrderList';
-import { OrderDetails } from './components/orders/OrderDetails';
+import { Route, Routes, BrowserRouter as Router, BrowserRouter } from "react-router-dom";
+import "./App.css";
+import { Login } from "./components/auth/Login";
+import { Register } from "./components/auth/Register";
+import { ApplicationViews } from "./views/ApplicationView";
 
 function App() {
   return (
-    <Routes>
-      <Route path="/order" element={<OrderList />} />
-      <Route path="/order/:id" element={<OrderDetails />} /> {/* Expecting :id */}
-    </Routes>
+    <>
+      {<BrowserRouter>
+        <Router>
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+
+            <Route
+              path="*"
+              element={
+                <Authorized>
+                  <ApplicationViews />
+                </Authorized>
+              }
+            />
+          </Routes>
+        </Router>
+        </BrowserRouter>
+      }
+    </>
   );
 }
 
