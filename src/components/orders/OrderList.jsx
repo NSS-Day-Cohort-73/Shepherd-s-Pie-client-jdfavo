@@ -26,8 +26,12 @@ export const OrderList = () => {
               Order #{order.id} -{" "}
               {order.isDelivery ? "Delivery" : `Table ${order.tableNumber}`}
               <p>
-                Total: ${order.total.toFixed(2)} | Placed at:{" "}
-                {new Date(order.orderDate).toLocaleTimeString()}
+                Total:{" "}
+                {new Intl.NumberFormat("en-US", {
+                  style: "currency",
+                  currency: "USD",
+                }).format(order.total)}{" "}
+                | Placed at: {new Date(order.orderDate).toLocaleTimeString()}
               </p>
               <Link to={`/order/${order.id}`}>
                 <button>Details</button>
