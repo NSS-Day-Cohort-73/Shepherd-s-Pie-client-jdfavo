@@ -1,28 +1,61 @@
 import { useEffect, useState } from "react";
-import { Route, Routes } from "react-router-dom";
-import { OrderList } from "../components/orders/OrderList";
+import { Route, Routes, Navigate, useNavigate } from "react-router-dom";
+import { OrderList } from "../components/orders/OrderList.jsx";
 
 export const ApplicationViews = () => {
-  const [currentUser, setCurrentUser] = useState({});
+  const [currentUser, setCurrentUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const localPizzaUser = localStorage.getItem("pizza_user");
-    const pizzaUserObject = JSON.parse(localPizzaUser);
+    if (localPizzaUser) {
+      const pizzaUserObject = JSON.parse(localPizzaUser);
+      setCurrentUser(pizzaUserObject);
 
-    setCurrentUser(pizzaUserObject);
-  }, []);
+      // If the user is an admin, redirect to the admin page
+      if (pizzaUserObject.isAdmin) {
+        navigate("/admin");
+      }
+    }
+    setLoading(false); // Set loading to false after the check
+  }, [navigate]); // Dependency on navigate
+
+  // Check if the user is an admin
+  const isAdmin = currentUser?.isAdmin === true;
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <Routes>
+      {/* Default Route for the Home Page (Order List) */}
       <Route
         path="/"
         element={
           <>
-            <div> Shepard's Pie</div>
+            <div>Shepard's Pie</div>
             <OrderList />
           </>
         }
-      ></Route>
+      />
+
+      {/* Admin Route - only accessible if user is an admin */}
+      {isAdmin ? (
+        <Route
+          path="/admin"
+          element={
+            <>
+              <div>Admin Dashboard</div>
+              {/* Admin-specific content can be added here */}
+            </>
+          }
+        />
+      ) : (
+        // Redirect non-admin users who try to access /admin
+        <Route path="/admin" element={<Navigate to="/" replace />} />
+      )}
     </Routes>
   );
 };
