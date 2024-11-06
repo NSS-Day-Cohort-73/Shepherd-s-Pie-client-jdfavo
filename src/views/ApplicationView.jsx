@@ -3,6 +3,7 @@ import { NavBar } from "../components/nav/NavBar";
 import { OrderDetails } from "../components/orders/OrderDetails";
 import { Route, Routes, Navigate, useNavigate } from "react-router-dom";
 import { OrderList } from "../components/orders/OrderList.jsx";
+import { EmployeeList } from "../components/employees/employeeList.jsx";
 
 export const ApplicationViews = () => {
   const [currentUser, setCurrentUser] = useState(null);
@@ -40,6 +41,7 @@ export const ApplicationViews = () => {
             <div>Shepard's Pie</div>
             <NavBar />
             <OrderList />
+            {/* <CreateOrder /> */} {/*uncomment to test create order*/}
           </>
         }
       />
@@ -54,6 +56,7 @@ export const ApplicationViews = () => {
               <div>Admin Dashboard</div>
               <NavBar />
               {/* Admin-specific content can be added here */}
+              <EmployeeList />
             </>
           }
         />

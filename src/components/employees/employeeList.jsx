@@ -1,0 +1,58 @@
+import { useEffect, useState } from "react";
+import { getEmployees } from "../../services/employeeService";
+import "./employee.css";
+
+export const EmployeeList = () => {
+  const [employees, setEmployees] = useState([]);
+
+  useEffect(() => {
+    getEmployees().then((e) => {
+      setEmployees(e);
+    });
+  }, []);
+
+  const handleEmployeeEditBtn = (event) => {
+    event.preventDefault();
+    window.alert("navigate to edit employees component");
+  };
+
+  return (
+    <section>
+      <header>Current Employees</header>
+      <div className="employee-grid">
+        {employees.map((e) => {
+          return (
+            <div key={e.id} className="employee-card">
+              <h2>{e.name}</h2>
+              <div className="info-row">
+                <span className="label">Role : </span>
+                <span className="value">Employee</span>
+              </div>
+              <div className="info-row">
+                <span className="label">Phone Number : </span>
+                <span className="value">{e.phone}</span>
+              </div>
+              <div className="info-row">
+                <span className="label">Address : </span>
+                <span className="value">{e.address}</span>
+              </div>
+              <div className="info-row">
+                <span className="label">Email : </span>
+                <span className="value">{e.email}</span>
+              </div>
+              <div className="info-row">
+                <span className="label"># of Orders : </span>
+                <span className="value">
+                  needs state here based on assigned orders
+                </span>
+              </div>
+              <div>
+                <button onClick={handleEmployeeEditBtn}>EDIT</button>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  );
+};
