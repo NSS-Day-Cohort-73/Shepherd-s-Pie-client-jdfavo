@@ -1,0 +1,237 @@
+/* OrderStyles.css */
+
+/* General Container */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  /* Header Title */
+  h2 {
+    font-size: 1.8em;
+    color: #333;
+    margin-bottom: 15px;
+  }
+  
+  /* Order List Styling */
+  .order-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+  }
+  
+  .order-card {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    width: 260px;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  
+  .order-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  }
+  
+  .order-card h3 {
+    font-size: 1.2em;
+    color: #333;
+    margin: 0 0 10px;
+  }
+  
+  .order-card p {
+    margin: 5px 0;
+    color: #666;
+  }
+  
+  /* Order Details Styling */
+  .order-details {
+    max-width: 600px;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .order-details h3 {
+    color: #4caf50;
+    font-size: 1.5em;
+    margin-bottom: 15px;
+  }
+  
+  .order-details p {
+    margin: 8px 0;
+    color: #444;
+  }
+  
+  /* Button Styling */
+  button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 0.9em;
+    cursor: pointer;
+    color: #fff;
+    background-color: #2196f3;
+    transition: background-color 0.2s;
+  }
+  
+  button:hover {
+    background-color: #1976d2;
+  }
+  
+  /* Special Button Styling for Different Actions */
+  .details-btn {
+    background-color: #4caf50;
+  }
+  
+  .details-btn:hover {
+    background-color: #45a049;
+  }
+  
+  .back-btn {
+    margin-top: 20px;
+    background-color: #f44336;
+  }
+  
+  .back-btn:hover {
+    background-color: #e53935;
+  }
+  /* OrderDetails.css */
+
+/* Container Styling */
+.order-details-container {
+    background-color: #f0f0f0;
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Header Styling */
+  h3 {
+    font-size: 1.8em;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  /* Pizza Card Styling */
+  .pizza-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .pizza-card {
+    display: flex;
+    justify-content: space-between;
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .pizza-info {
+    flex: 3;
+  }
+  
+  .pizza-info h4 {
+    margin: 0;
+    font-size: 1.2em;
+  }
+  
+  .pizza-info p {
+    margin: 5px 0;
+    font-size: 0.95em;
+    color: #555;
+  }
+  
+  .pizza-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    flex: 1;
+    text-align: right;
+  }
+  
+  .pizza-cost {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  /* Button Styling */
+  button {
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-size: 0.9em;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .update-btn {
+    background-color: #3498db;
+    color: white;
+    margin-bottom: 8px;
+  }
+  
+  .update-btn:hover {
+    background-color: #2980b9;
+  }
+  
+  .remove-btn {
+    background-color: #e74c3c;
+    color: white;
+  }
+  
+  .remove-btn:hover {
+    background-color: #c0392b;
+  }
+  
+  /* Order Summary Styling */
+  .order-summary {
+    display: flex;
+    justify-content: space-between;
+    background-color: #e0e0e0;
+    padding: 15px;
+    margin-top: 20px;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .total-cost {
+    color: #333;
+    font-size: 1.2em;
+  }
+  
+  /* Bottom Action Buttons */
+  .order-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .add-pizza-btn, .finish-btn {
+    background-color: #2ecc71;
+    color: white;
+    padding: 10px 20px;
+    font-size: 1em;
+    border-radius: 5px;
+  }
+  
+  .add-pizza-btn:hover, .finish-btn:hover {
+    background-color: #27ae60;
+  }
+  

@@ -1,7 +1,7 @@
-// src/components/orders/OrderList.js
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { GetOrders } from "../../services/orderService";
+import "./Order.css"; 
 
 export const OrderList = () => {
   const [orders, setOrders] = useState([]);
@@ -16,17 +16,17 @@ export const OrderList = () => {
   }, []);
 
   return (
-    <div>
+    <div className="container">
       <h2>Orders</h2>
-      <ul>
+      <ul className="order-list">
         {orders.map((order) => (
-          <li key={order.id}>
-            <p>
-              Order #{order.id} - {order.isDelivery ? "Delivery" : `Table ${order.tableNumber}`}
-            </p>
+          <li key={order.id} className="order-card">
+            <h3>Order #{order.id}</h3>
+            <p>{order.isDelivery ? "Delivery" : `Table ${order.tableNumber}`}</p>
             <p>Total: ${order.total.toFixed(2)}</p>
+            <p>Placed at: {new Date(order.orderDate).toLocaleTimeString()}</p>
             <Link to={`/orders/${order.id}`}>
-              <button>Details</button>
+              <button className="details-btn">Details</button>
             </Link>
           </li>
         ))}
