@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
-import { OrderList } from "../src/components/orders/OrderList.jsx";
+import { OrderList } from "../components/orders/OrderList";
 
 export const ApplicationViews = () => {
   const [currentUser, setCurrentUser] = useState({});
