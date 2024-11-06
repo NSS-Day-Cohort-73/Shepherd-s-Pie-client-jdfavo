@@ -150,6 +150,13 @@ export const CreateOrder = () => {
         };
       });
 
+      const subtotal = orderItems.reduce(
+        (sum, item) => sum + item.totalPrice,
+        0
+      );
+      const deliveryFee = isDeliveryBtn ? 10 : 0;
+      const total = subtotal + deliveryFee;
+
       const newOrder = {
         // customerName: customerName, // need this state
         // phoneNumber: phoneNumber, // need this state
@@ -157,7 +164,8 @@ export const CreateOrder = () => {
         deliveryAddress: isDeliveryBtn ? deliveryAddress : null,
         orderDate: new Date().toISOString(),
         items: orderItems,
-        total: orderItems.reduce((sum, item) => sum + item.totalPrice, 0),
+        subtotal: subtotal,
+        total: total,
       };
 
       // Post the order
