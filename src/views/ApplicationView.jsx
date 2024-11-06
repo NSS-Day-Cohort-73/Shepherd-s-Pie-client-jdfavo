@@ -39,6 +39,7 @@ export const ApplicationViews = () => {
           <>
             <div>Shepard's Pie</div>
             <OrderList />
+            {/* <CreateOrder /> */} {/*uncomment to test create order*/}
           </>
         }
       />
