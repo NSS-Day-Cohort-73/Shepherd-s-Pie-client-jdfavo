@@ -5,6 +5,7 @@ import {
   getSauce,
   getSizes,
   getToppings,
+  postOrder,
 } from "../../services/orderService";
 import "./Order.css";
 
@@ -126,6 +127,58 @@ export const CreateOrder = () => {
     }
   }, [currentCart]);
 
+  const handleSubmitOrder = (event) => {
+    event.preventDefault();
+
+    if (currentCart.length > 0) {
+      // Calculate total order price
+      const orderItems = currentCart.map((item, index) => {
+        const sizeDetails = sizes.find((s) => s.id === item.size);
+        const cheeseDetails = cheese.find((c) => c.id === item.cheese);
+        const sauceDetails = sauces.find((s) => s.id === item.sauce);
+        const toppingsPrice = item.toppings.length * 0.5; // Assuming $0.50 per topping
+
+        return {
+          id: index + 1,
+          size: sizeDetails.size,
+          cheese: cheeseDetails.name,
+          sauce: sauceDetails.name,
+          toppings: item.toppings,
+          basePrice: sizeDetails.price,
+          toppingsPrice: toppingsPrice,
+          totalPrice: sizeDetails.price + toppingsPrice,
+        };
+      });
+
+      const newOrder = {
+        // customerName: customerName, // need this state
+        // phoneNumber: phoneNumber, // need this state
+        isDelivery: isDeliveryBtn,
+        deliveryAddress: isDeliveryBtn ? deliveryAddress : null,
+        orderDate: new Date().toISOString(),
+        items: orderItems,
+        total: orderItems.reduce((sum, item) => sum + item.totalPrice, 0),
+      };
+
+      // Post the order
+      postOrder(newOrder)
+        .then((response) => response.json())
+        .then(() => {
+          // Clear cart and reset form
+          setCurrentCart([]);
+          setCurrentCartPreview([]);
+          setSelectedSize(0);
+          setSelectedCheese(0);
+          setSelectedSauces(0);
+          setSelectedToppings([]);
+          setDeliveryAddress("");
+          // Reset other form fields
+          //   setCustomerName("");
+          //   setPhoneNumber("");
+        });
+    }
+  };
+
   return (
     <form>
       <h2>Build Your Pizza</h2>
@@ -240,7 +293,7 @@ export const CreateOrder = () => {
               : "Cart is currently Empty"}
           </div>
           <button onClick={handleAddToCart}>Add To Cart</button>
-          <button>Submit Order</button>
+          <button onClick={handleSubmitOrder}>Submit Order</button>
           <footer>TOTAL : ${totalCost}</footer>
         </div>
       </div>
