@@ -14,60 +14,64 @@ export const NavBar = () => {
     }
   }, []);
 
-  console.log("isAdmin state:", isAdmin);
-
   return (
-    <ul className="navbar">
-      <li className="navbar-item">
-        <Link to="/orders">Orders</Link>
-      </li>
-      <li className="navbar-item">
-        <Link to="/createOrder">Create New Orders</Link>
-      </li>
-      {isAdmin && (
-        <>
-          <li className="navbar-item">
-            <Link to="/employees">Employees</Link>
-          </li>
-          <li className="navbar-item">
-            <Link to="/salesReport">Sales Report</Link>
-          </li>
-        </>
-      )}
-    </ul>
+    <nav className="navbar">
+      <ul className="navbar-list">
+        <li className="navbar-item">
+          <button className="navbar-button" onClick={() => navigate("/orders")}>
+            <span>Orders</span>
+          </button>
+        </li>
+        <li className="navbar-item">
+          <button
+            className="navbar-button"
+            onClick={() => navigate("/createOrder")}
+          >
+            <span>Create New Order</span>
+          </button>
+        </li>
+        {isAdmin && (
+          <>
+            <li className="navbar-item">
+              <button
+                className="navbar-button"
+                onClick={() => navigate("/employees")}
+              >
+                <span>Employees</span>
+              </button>
+            </li>
+            <li className="navbar-item">
+              <button
+                className="navbar-button"
+                onClick={() => navigate("/salesReport")}
+              >
+                <span>Sales Report</span>
+              </button>
+            </li>
+          </>
+        )}
+      </ul>
+    </nav>
   );
 };
 
-//   useEffect(() => {
-//     const currentUser = JSON.parse(localStorage.getItem("pizza-user"));
-//     console.log("Current user:", currentUser);
-
-//     if (currentUser && currentUser.isAdmin !== undefined) {
-//       console.log("isAdmin value:", currentUser.isAdmin);
-//       setIsAdmin(currentUser.isAdmin);
-//     } else {
-//       console.error("Could not retrieve isAdmin property from currentUser");
-//     }
-//   }, []);
-
-//   console.log("isAdmin state:", isAdmin);
-
-// useEffect(() => {
-//     try {
-//       const currentUser = JSON.parse(localStorage.getItem("pizza-user"));
-//       if (currentUser) {
-//         if (currentUser.isAdmin !== undefined) {
-//           console.log("isAdmin value:", currentUser.isAdmin);
-//           setIsAdmin(currentUser.isAdmin);
-//         } else {
-//           console.error("Could not retrieve isAdmin property from currentUser");
-//         }
-//       } else {
-//         console.log("Current user is null");
-//       }
-//     } catch (error) {
-//       console.error("Error handling NavBar component:", error);
-//       // Display a fallback or error message to the user
-//       return <div>An error occurred while loading the navigation bar.</div>;
-//     }
-//   }, []);
+// return (
+//   <ul className="navbar">
+//     <li className="navbar-item">
+//       <Link to="/orders">Orders</Link>
+//     </li>
+//     <li className="navbar-item">
+//       <Link to="/createOrder">Create New Orders</Link>
+//     </li>
+//     {isAdmin && (
+//       <>
+//         <li className="navbar-item">
+//           <Link to="/employees">Employees</Link>
+//         </li>
+//         <li className="navbar-item">
+//           <Link to="/salesReport">Sales Report</Link>
+//         </li>
+//       </>
+//     )}
+//   </ul>
+//     );

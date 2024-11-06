@@ -38,6 +38,7 @@ export const ApplicationViews = () => {
         element={
           <>
             <div>Shepard's Pie</div>
+            <NavBar />
             <OrderList />
           </>
         }
@@ -51,6 +52,7 @@ export const ApplicationViews = () => {
           element={
             <>
               <div>Admin Dashboard</div>
+              <NavBar />
               {/* Admin-specific content can be added here */}
             </>
           }
