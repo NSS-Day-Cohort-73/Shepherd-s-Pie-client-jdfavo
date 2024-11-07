@@ -28,7 +28,10 @@ export const NavBar = () => {
 
         {/* Both admin and non-admin can create new orders */}
         <li className="navbar-item">
-          <Link to="/createOrder" className="navbar-button">
+          <Link
+            to={isAdmin ? "/admin/createOrder" : "/createOrder"}
+            className="navbar-button"
+          >
             <span>Create New Order</span>
           </Link>
         </li>

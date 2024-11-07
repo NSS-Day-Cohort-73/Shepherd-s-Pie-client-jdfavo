@@ -14,7 +14,6 @@ import { EmployeeList } from "../components/employees/employeeList.jsx";
 import { EditEmployee } from "../components/employees/EditEmployee.jsx";
 import { CreateOrder } from "../components/orders/CreateOrder.jsx";
 
-// Layout component that includes common elements
 const Layout = () => {
   return (
     <>
@@ -25,7 +24,6 @@ const Layout = () => {
   );
 };
 
-// Admin layout component
 const AdminLayout = () => {
   return (
     <>
@@ -52,31 +50,17 @@ export const ApplicationViews = () => {
 
   return (
     <Routes>
-      <Route
-        path="/"
-        element={
-          <>
-            <div>Shepard's Pie</div>
-            <NavBar />
-            <OrderList />
-          </>
-        }
-      />
-      <Route
-        path="orders"
-        element={
-          <>
-            <NavBar />
-            <OrderList />
-          </>
-        }
-      />
-
-      <Route path="/orders/:orderId" element={<OrderDetails />} />
+      {/* Main routes using Layout */}
+      <Route element={<Layout />}>
+        <Route index element={<OrderList />} />
+        <Route path="orders" element={<OrderList />} />
+        <Route path="orders/:orderId" element={<OrderDetails />} />
+        <Route path="createOrder" element={<CreateOrder />} />
+      </Route>
 
       {/* Admin routes */}
       {isAdmin ? (
-        <Route path="/admin" element={<AdminLayout />}>
+        <Route path="admin" element={<AdminLayout />}>
           <Route index element={<EmployeeList />} />
           <Route path="employees/:employeeId" element={<EditEmployee />} />
           <Route path="orders" element={<OrderList />} />
