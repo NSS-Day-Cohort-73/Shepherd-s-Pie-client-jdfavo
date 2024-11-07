@@ -5,6 +5,8 @@ export const SalesReport = ({ orders }) => {
   const [selectedMonth, setSelectedMonth] = useState(new Date());
   const [ordersForMonth, setOrdersForMonth] = useState([]);
 
+  console.log("hello");
+
   // Helper function called in useEffect to get orders for a given month
   useEffect(() => {
     getOrdersForMonth(selectedMonth).then((orders) => {
