@@ -4,6 +4,7 @@ import { OrderDetails } from "../components/orders/OrderDetails";
 import { Route, Routes, Navigate, useNavigate } from "react-router-dom";
 import { OrderList } from "../components/orders/OrderList.jsx";
 import { EmployeeList } from "../components/employees/employeeList.jsx";
+import { SalesReport } from "../components/salesReport/salesReport.jsx";
 
 export const ApplicationViews = () => {
   const [currentUser, setCurrentUser] = useState(null);
@@ -57,6 +58,7 @@ export const ApplicationViews = () => {
               <NavBar />
               {/* Admin-specific content can be added here */}
               <EmployeeList />
+              <SalesReport getOrdersForMonth={getOrdersForMonth} />
             </>
           }
         />
