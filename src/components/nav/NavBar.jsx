@@ -46,7 +46,7 @@ export const NavBar = () => {
           <>
             <li className="navbar-item">
               <Link to="/admin/orders" className="navbar-button">
-                <span>Admin Orders</span>
+                <span>Orders</span>
               </Link>
             </li>
             <li className="navbar-item">
