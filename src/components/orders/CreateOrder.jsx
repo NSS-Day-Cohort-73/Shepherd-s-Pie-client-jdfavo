@@ -8,6 +8,7 @@ import {
   postOrder,
 } from "../../services/orderService";
 import "./Order.css";
+import { useNavigate } from "react-router-dom";
 
 export const CreateOrder = () => {
   //gathering state
@@ -28,6 +29,8 @@ export const CreateOrder = () => {
   const [deliveryAddress, setDeliveryAddress] = useState("");
   const [isDeliveryBtn, setIsDeliveryBtn] = useState(false);
   const [submitOrderBtn, setSubmitOrderBtn] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     Promise.all([
@@ -183,6 +186,9 @@ export const CreateOrder = () => {
           // Reset other form fields
           //   setCustomerName("");
           //   setPhoneNumber("");
+        })
+        .then(() => {
+          navigate("/");
         });
     }
   };
