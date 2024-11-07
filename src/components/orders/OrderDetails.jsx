@@ -45,7 +45,7 @@ export const OrderDetails = () => {
     await updateOrderById(orderId, updatedOrder);
     setUpdatingPizzaIndex(null);
     setOrder(updatedOrder);
-    navigate("/order");
+    navigate("/orders");
   };
 
   const handleEditPizza = (index) => {

@@ -35,7 +35,7 @@ export const ApplicationViews = () => {
     <Routes>
       {/* Default Route for the Home Page (Order List) */}
       <Route
-        path="/"
+        path="/orders"
         element={
           <>
             <div>Shepard's Pie</div>

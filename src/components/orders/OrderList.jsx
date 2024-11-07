@@ -8,12 +8,21 @@ export const OrderList = () => {
 
   useEffect(() => {
     const fetchOrders = async () => {
-      const ordersData = await GetOrders();
-      setOrders(ordersData);
+      try {
+        const ordersData = await GetOrders();
+        if (ordersData && Array.isArray(ordersData)) {
+          setOrders(ordersData);
+        } else {
+          console.error("Unexpected data format:", ordersData);
+        }
+      } catch (error) {
+        console.error("Error fetching orders:", error);
+      }
     };
-
+  
     fetchOrders();
   }, []);
+  
 
   return (
     <div className="container">
@@ -23,7 +32,7 @@ export const OrderList = () => {
           <li key={order.id} className="order-card">
             <h3>Order #{order.id}</h3>
             <p>{order.isDelivery ? "Delivery" : `Table ${order.tableNumber}`}</p>
-            <p>Total: ${order.total.toFixed(2)}</p>
+            <p>Total: ${order.total ? order.total.toFixed(2) : "0.00"}</p>
             <p>Placed at: {new Date(order.orderDate).toLocaleTimeString()}</p>
             <Link to={`/orders/${order.id}`}>
               <button className="details-btn">Details</button>
