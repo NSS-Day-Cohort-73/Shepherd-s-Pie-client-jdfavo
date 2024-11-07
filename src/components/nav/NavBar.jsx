@@ -8,7 +8,7 @@ export const NavBar = () => {
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
-    const currentUser = JSON.parse(localStorage.getItem("pizza-user"));
+    const currentUser = JSON.parse(localStorage.getItem("pizza_user"));
     if (currentUser && currentUser.isAdmin !== undefined) {
       setIsAdmin(currentUser.isAdmin);
     }
@@ -18,35 +18,29 @@ export const NavBar = () => {
     <nav className="navbar">
       <ul className="navbar-list">
         <li className="navbar-item">
-          <button className="navbar-button" onClick={() => navigate("/orders")}>
+          <Link to="/orders" className="navbar-button">
             <span>Orders</span>
-          </button>
+          </Link>
         </li>
+
         <li className="navbar-item">
-          <button
-            className="navbar-button"
-            onClick={() => navigate("/createOrder")}
-          >
+          <Link to="/createOrder" className="navbar-button">
             <span>Create New Order</span>
-          </button>
+          </Link>
         </li>
+
         {isAdmin && (
           <>
             <li className="navbar-item">
-              <button
-                className="navbar-button"
-                onClick={() => navigate("/employees")}
-              >
+              <Link to="/employees" className="navbar-button">
                 <span>Employees</span>
-              </button>
+              </Link>
             </li>
+
             <li className="navbar-item">
-              <button
-                className="navbar-button"
-                onClick={() => navigate("/salesReport")}
-              >
+              <Link to="/salesReport" className="navbar-button">
                 <span>Sales Report</span>
-              </button>
+              </Link>
             </li>
           </>
         )}

@@ -7,7 +7,6 @@ body {
   flex-direction: column;
 }
 
-/* Navbar Styles */
 .navbar {
   position: fixed;
   top: 0;
@@ -19,21 +18,20 @@ body {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* List of navbar items */
 .navbar-list {
   display: flex;
-  justify-content: flex-start; /* Align items to the left */
-  gap: 2rem; /* Spacing between items */
+  justify-content: flex-start;
+  gap: 2rem;
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-/* Navbar items */
 .navbar-item {
   margin: 0;
 }
 
+/* Updated to style both buttons and links */
 .navbar-button {
   font-family: "Quicksand", sans-serif;
   letter-spacing: 1px;
@@ -47,12 +45,15 @@ body {
   font-size: 1rem;
   text-align: center;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-decoration: none; /* Removes link underline */
+  display: inline-block; /* Makes link behave like a block element */
 }
 
 .navbar-button:hover {
   background-color: var(--offWhite);
   transform: translateY(-4px);
   box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+  text-decoration: none;
 }
 
 .navbar-button:active {
@@ -62,16 +63,15 @@ body {
 
 .navbar-button:focus {
   outline: 3px solid var(--primary);
+  text-decoration: none;
 }
 
-/* Adjust content below the navbar */
 .content {
-  margin-top: 4rem; /* Adjust this value if the navbar height changes */
+  margin-top: 4rem;
   padding: 2rem;
   flex-grow: 1;
 }
 
-/* CSS Variables */
 :root {
   --dark: #333;
   --primary: #007bff;
