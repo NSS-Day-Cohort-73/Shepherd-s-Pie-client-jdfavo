@@ -55,7 +55,7 @@ export const NavBar = () => {
               </Link>
             </li>
             <li className="navbar-item">
-              <Link to="/salesReport" className="navbar-button">
+              <Link to="/admin/salesReport" className="navbar-button">
                 <span>Sales Report</span>
               </Link>
             </li>
