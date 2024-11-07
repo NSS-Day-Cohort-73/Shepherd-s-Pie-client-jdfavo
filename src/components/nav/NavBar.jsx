@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import "./NavBar.css";
 import { useEffect, useState } from "react";
+import "./NavBar.css";
 
 export const NavBar = () => {
   const navigate = useNavigate();
@@ -17,26 +17,37 @@ export const NavBar = () => {
   return (
     <nav className="navbar">
       <ul className="navbar-list">
-        <li className="navbar-item">
-          <Link to="orders" className="navbar-button">
-            <span>Orders</span>
-          </Link>
-        </li>
+        {/* Non-Admin users: Link to orders */}
+        {!isAdmin && (
+          <li className="navbar-item">
+            <Link to="/orders" className="navbar-button">
+              <span>Orders</span>
+            </Link>
+          </li>
+        )}
 
+        {/* Both admin and non-admin can create new orders */}
         <li className="navbar-item">
           <Link to="/createOrder" className="navbar-button">
             <span>Create New Order</span>
           </Link>
         </li>
 
+        {/* Admin-only Links */}
         {isAdmin && (
           <>
+            {/* Admins get the Admin Orders link */}
+            <li className="navbar-item">
+              <Link to="/admin/orders" className="navbar-button">
+                <span>Orders</span>
+              </Link>
+            </li>
+
             <li className="navbar-item">
               <Link to="/admin" className="navbar-button">
                 <span>Employees</span>
               </Link>
             </li>
-
             <li className="navbar-item">
               <Link to="/salesReport" className="navbar-button">
                 <span>Sales Report</span>
@@ -48,24 +59,3 @@ export const NavBar = () => {
     </nav>
   );
 };
-
-// return (
-//   <ul className="navbar">
-//     <li className="navbar-item">
-//       <Link to="/orders">Orders</Link>
-//     </li>
-//     <li className="navbar-item">
-//       <Link to="/createOrder">Create New Orders</Link>
-//     </li>
-//     {isAdmin && (
-//       <>
-//         <li className="navbar-item">
-//           <Link to="/employees">Employees</Link>
-//         </li>
-//         <li className="navbar-item">
-//           <Link to="/salesReport">Sales Report</Link>
-//         </li>
-//       </>
-//     )}
-//   </ul>
-//     );

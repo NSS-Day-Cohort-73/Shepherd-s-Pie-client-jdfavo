@@ -52,12 +52,27 @@ export const ApplicationViews = () => {
 
   return (
     <Routes>
-      {/* Main layout routes */}
-      <Route element={<Layout />}>
-        <Route index element={<OrderList />} />
-        <Route path="orders/:orderId" element={<OrderDetails />} />
-        <Route path="createOrder" element={<CreateOrder />} />
-      </Route>
+      <Route
+        path="/"
+        element={
+          <>
+            <div>Shepard's Pie</div>
+            <NavBar />
+            <OrderList />
+          </>
+        }
+      />
+      <Route
+        path="orders"
+        element={
+          <>
+            <NavBar />
+            <OrderList />
+          </>
+        }
+      />
+
+      <Route path="/orders/:orderId" element={<OrderDetails />} />
 
       {/* Admin routes */}
       {isAdmin ? (
