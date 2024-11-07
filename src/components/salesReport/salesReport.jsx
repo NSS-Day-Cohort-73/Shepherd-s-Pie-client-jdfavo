@@ -18,10 +18,8 @@ export const SalesReport = ({ orders }) => {
   }, [selectedMonth, orders]);
 
   // Calculate sales metrics for the selected month
-  const totalSales = ordersForMonth.reduce(
-    (sum, order) => sum + order.total,
-    0
-  );
+  const totalSales =
+    ordersForMonth?.reduce((sum, order) => sum + order.total, 0) || 0;
 
   // Get most popular pizza size, cheese, sauce, and toppings
   const sizeCounts = {};
