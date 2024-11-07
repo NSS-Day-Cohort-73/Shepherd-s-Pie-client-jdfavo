@@ -77,3 +77,8 @@ body {
   --primary: #007bff;
   --offWhite: #f8f9fa;
 }
+
+.navbar-logout {
+  margin-left: auto;
+  padding-right: 5rem;
+}
