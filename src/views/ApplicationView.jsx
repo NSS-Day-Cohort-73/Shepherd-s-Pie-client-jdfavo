@@ -59,6 +59,10 @@ export const ApplicationViews = () => {
             />
 
             <Route
+              path="/admin/employees/:employeeId"
+              element={<EditEmployee />}
+            />
+            <Route
               path="orders"
               element={
                 <>

@@ -44,7 +44,7 @@ export const EditEmployee = () => {
       isAdmin: false,
     };
     editEmployee(editedEmployee).then(() => {
-      navigate("/admin/employees");
+      navigate("/admin");
     });
   };
 
