@@ -38,18 +38,29 @@ export const SalesReport = ({ orders }) => {
     });
   });
 
-  const popularSize = Object.keys(sizeCounts).reduce((a, b) =>
-    sizeCounts[a] > sizeCounts[b] ? a : b
-  );
-  const popularCheese = Object.keys(cheeseCounts).reduce((a, b) =>
-    cheeseCounts[a] > cheeseCounts[b] ? a : b
-  );
-  const popularSauce = Object.keys(sauceCounts).reduce((a, b) =>
-    sauceCounts[a] > sauceCounts[b] ? a : b
-  );
-  const popularToppings = Object.keys(toppingCounts)
-    .sort((a, b) => toppingCounts[b] - toppingCounts[a])
-    .slice(0, 3);
+  const popularSize = Object.keys(sizeCounts).length
+    ? Object.keys(sizeCounts).reduce((a, b) =>
+        sizeCounts[a] > sizeCounts[b] ? a : b
+      )
+    : "N/A"; // Return "N/A" if no size found
+
+  const popularCheese = Object.keys(cheeseCounts).length
+    ? Object.keys(cheeseCounts).reduce((a, b) =>
+        cheeseCounts[a] > cheeseCounts[b] ? a : b
+      )
+    : "N/A"; // Return "N/A" if no cheese found
+
+  const popularSauce = Object.keys(sauceCounts).length
+    ? Object.keys(sauceCounts).reduce((a, b) =>
+        sauceCounts[a] > sauceCounts[b] ? a : b
+      )
+    : "N/A"; // Return "N/A" if no sauce found
+
+  const popularToppings = Object.keys(toppingCounts).length
+    ? Object.keys(toppingCounts)
+        .sort((a, b) => toppingCounts[b] - toppingCounts[a])
+        .slice(0, 3)
+    : [];
 
   return (
     <div className="flex flex-col md:flex-row gap-8">
