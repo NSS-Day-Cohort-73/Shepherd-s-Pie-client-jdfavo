@@ -10,6 +10,7 @@ import { NavBar } from "../components/nav/NavBar.jsx";
 import { OrderDetails } from "../components/orders/OrderDetails.jsx";
 import { OrderList } from "../components/orders/OrderList";
 import { EmployeeList } from "../components/employees/employeeList.jsx";
+import { EditEmployee } from "../components/employees/EditEmployee.jsx";
 
 export const ApplicationViews = () => {
   const [currentUser, setCurrentUser] = useState(null);
@@ -57,6 +58,10 @@ export const ApplicationViews = () => {
               }
             />
 
+            <Route
+              path="/admin/employees/:employeeId"
+              element={<EditEmployee />}
+            />
             <Route
               path="orders"
               element={

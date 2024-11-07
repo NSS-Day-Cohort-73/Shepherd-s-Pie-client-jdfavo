@@ -32,7 +32,7 @@ export const NavBar = () => {
         {isAdmin && (
           <>
             <li className="navbar-item">
-              <Link to="/employees" className="navbar-button">
+              <Link to="/admin" className="navbar-button">
                 <span>Employees</span>
               </Link>
             </li>
