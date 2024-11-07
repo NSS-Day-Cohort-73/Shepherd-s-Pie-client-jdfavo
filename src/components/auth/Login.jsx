@@ -5,13 +5,15 @@ import "./Login.css";
 import { getUserByEmail } from "../../services/userService";
 
 export const Login = () => {
-  const [email, set] = useState("Enter email to log in");
+  const [email, set] = useState("");
   const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
 
     getUserByEmail(email).then((foundUsers) => {
+      console.log("Found users:", foundUsers);
+
       if (foundUsers.length === 1) {
         const user = foundUsers[0];
         localStorage.setItem(
@@ -20,6 +22,10 @@ export const Login = () => {
             id: user.id,
             isAdmin: user.isAdmin,
           })
+        );
+        console.log(
+          "Stored user in localStorage:",
+          JSON.parse(localStorage.getItem("pizza_user"))
         );
 
         navigate("/");
@@ -63,3 +69,5 @@ export const Login = () => {
     </main>
   );
 };
+
+//isStaff: user.isStaff,

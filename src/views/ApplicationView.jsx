@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { NavBar } from "../components/nav/NavBar";
 import { OrderDetails } from "../components/orders/OrderDetails";
 import { Route, Routes, Navigate, useNavigate } from "react-router-dom";
 import { OrderList } from "../components/orders/OrderList.jsx";
@@ -38,6 +39,7 @@ export const ApplicationViews = () => {
         element={
           <>
             <div>Shepard's Pie</div>
+            <NavBar />
             <OrderList />
             {/* <CreateOrder /> */} {/*uncomment to test create order*/}
           </>
@@ -52,6 +54,7 @@ export const ApplicationViews = () => {
           element={
             <>
               <div>Admin Dashboard</div>
+              <NavBar />
               {/* Admin-specific content can be added here */}
               <EmployeeList />
             </>
@@ -64,3 +67,5 @@ export const ApplicationViews = () => {
     </Routes>
   );
 };
+
+//    setCurrentUser(pizzaUserObject);
