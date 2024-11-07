@@ -1,0 +1,79 @@
+body {
+  margin: 0;
+  font-family: "Arial", sans-serif;
+  background-color: #f4f4f4;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: var(--dark);
+  padding: 0.5rem 2rem;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-list {
+  display: flex;
+  justify-content: flex-start;
+  gap: 2rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.navbar-item {
+  margin: 0;
+}
+
+/* Updated to style both buttons and links */
+.navbar-button {
+  font-family: "Quicksand", sans-serif;
+  letter-spacing: 1px;
+  padding: 0.6rem 2rem;
+  background-color: white;
+  color: var(--dark);
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-decoration: none; /* Removes link underline */
+  display: inline-block; /* Makes link behave like a block element */
+}
+
+.navbar-button:hover {
+  background-color: var(--offWhite);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+  text-decoration: none;
+}
+
+.navbar-button:active {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-button:focus {
+  outline: 3px solid var(--primary);
+  text-decoration: none;
+}
+
+.content {
+  margin-top: 4rem;
+  padding: 2rem;
+  flex-grow: 1;
+}
+
+:root {
+  --dark: #333;
+  --primary: #007bff;
+  --offWhite: #f8f9fa;
+}
