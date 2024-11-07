@@ -42,6 +42,15 @@ export const ApplicationViews = () => {
           </>
         }
       />
+      <Route
+        path="orders"
+        element={
+          <>
+            <NavBar />
+            <OrderList />
+          </>
+        }
+      />
 
       <Route path="/orders/:orderId" element={<OrderDetails />} />
 
