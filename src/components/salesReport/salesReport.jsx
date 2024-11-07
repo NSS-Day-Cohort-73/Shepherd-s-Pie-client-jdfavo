@@ -1,83 +1,110 @@
 import React, { useState, useEffect } from "react";
 import { getOrdersForMonth } from "../../services/salesReportService";
+import "./salesReport.css";
+import { getToppings } from "../../services/orderService";
 
-export const SalesReport = ({ orders }) => {
+export const SalesReport = () => {
   const [selectedMonth, setSelectedMonth] = useState(new Date());
   const [ordersForMonth, setOrdersForMonth] = useState([]);
+  const [toppings, setToppings] = useState([]);
 
-  console.log("hello");
-
-  // Helper function called in useEffect to get orders for a given month
+  // Single useEffect to fetch orders
   useEffect(() => {
     getOrdersForMonth(selectedMonth).then((orders) => {
-      setOrdersForMonth(orders);
+      setOrdersForMonth(orders); // Assuming the API returns the array directly
     });
   }, [selectedMonth]);
 
   useEffect(() => {
-    const filteredOrders = getOrdersForMonth(selectedMonth);
-    setOrdersForMonth(filteredOrders);
-  }, [selectedMonth, orders]);
+    const fetchOrder = async () => {
+      const toppingsData = await getToppings();
+      setToppings(toppingsData);
+    };
 
-  // Calculate sales metrics for the selected month
-  const totalSales =
-    ordersForMonth?.reduce((sum, order) => sum + order.total, 0) || 0;
+    fetchOrder();
+  }, []);
 
-  // Get most popular pizza size, cheese, sauce, and toppings
-  const sizeCounts = {};
-  const cheeseCounts = {};
-  const sauceCounts = {};
-  const toppingCounts = {};
-
-  ordersForMonth.forEach((order) => {
-    order.items.forEach((item) => {
-      sizeCounts[item.size] = (sizeCounts[item.size] || 0) + 1;
-      cheeseCounts[item.cheese] = (cheeseCounts[item.cheese] || 0) + 1;
-      sauceCounts[item.sauce] = (sauceCounts[item.sauce] || 0) + 1;
-      item.toppings.forEach((topping) => {
-        toppingCounts[topping] = (toppingCounts[topping] || 0) + 1;
-      });
+  const getToppingNames = (toppingIds) => {
+    return toppingIds.map((id) => {
+      const topping = toppings.find((top) => top.id == id);
+      return topping ? topping.name : "Unknown";
     });
-  });
+  };
 
-  const popularSize = Object.keys(sizeCounts).length
-    ? Object.keys(sizeCounts).reduce((a, b) =>
-        sizeCounts[a] > sizeCounts[b] ? a : b
-      )
-    : "N/A"; // Return "N/A" if no size found
+  // Calculate sales metrics only if we have orders
+  const calculateMetrics = (orders) => {
+    if (!orders || !orders.length) {
+      return {
+        totalSales: 0,
+        popularSize: "N/A",
+        popularCheese: "N/A",
+        popularSauce: "N/A",
+        popularToppings: [],
+      };
+    }
 
-  const popularCheese = Object.keys(cheeseCounts).length
-    ? Object.keys(cheeseCounts).reduce((a, b) =>
-        cheeseCounts[a] > cheeseCounts[b] ? a : b
-      )
-    : "N/A"; // Return "N/A" if no cheese found
+    const sizeCounts = {};
+    const cheeseCounts = {};
+    const sauceCounts = {};
+    const toppingCounts = {};
 
-  const popularSauce = Object.keys(sauceCounts).length
-    ? Object.keys(sauceCounts).reduce((a, b) =>
-        sauceCounts[a] > sauceCounts[b] ? a : b
-      )
-    : "N/A"; // Return "N/A" if no sauce found
+    orders.forEach((order) => {
+      if (order.items) {
+        // Add null check for items
+        order.items.forEach((item) => {
+          sizeCounts[item.size] = (sizeCounts[item.size] || 0) + 1;
+          cheeseCounts[item.cheese] = (cheeseCounts[item.cheese] || 0) + 1;
+          sauceCounts[item.sauce] = (sauceCounts[item.sauce] || 0) + 1;
 
-  const popularToppings = Object.keys(toppingCounts).length
-    ? Object.keys(toppingCounts)
+          if (item.toppings) {
+            // Add null check for toppings
+            item.toppings.forEach((topping) => {
+              toppingCounts[topping] = (toppingCounts[topping] || 0) + 1;
+            });
+          }
+        });
+      }
+    });
+
+    const getMaxKey = (obj) =>
+      Object.keys(obj).length
+        ? Object.keys(obj).reduce((a, b) => (obj[a] > obj[b] ? a : b))
+        : "N/A";
+
+    return {
+      totalSales: orders.reduce((sum, order) => sum + (order.total || 0), 0),
+      popularSize: getMaxKey(sizeCounts),
+      popularCheese: getMaxKey(cheeseCounts),
+      popularSauce: getMaxKey(sauceCounts),
+      popularToppings: Object.keys(toppingCounts)
         .sort((a, b) => toppingCounts[b] - toppingCounts[a])
-        .slice(0, 3)
-    : [];
+        .slice(0, 3),
+    };
+  };
+
+  const {
+    totalSales,
+    popularSize,
+    popularCheese,
+    popularSauce,
+    popularToppings,
+  } = calculateMetrics(ordersForMonth);
+
+  const handleMonthChange = (e) => {
+    const newDate = new Date(selectedMonth.getFullYear(), e.target.value, 1);
+    setSelectedMonth(newDate);
+  };
 
   return (
-    <div className="flex flex-col md:flex-row gap-8">
-      <div className="w-full md:w-1/2">
+    <div className="sales-report-container">
+      <div className="sales-report-section">
         <h2>Sales Report</h2>
-        <div>
-          <label htmlFor="month-select">Select Month:</label>
+        <div className="month-selector">
+          <label htmlFor="month-select">Select Month: </label>
           <select
             id="month-select"
             value={selectedMonth.getMonth()}
-            onChange={(e) =>
-              setSelectedMonth(
-                new Date(selectedMonth.getFullYear(), e.target.value, 1)
-              )
-            }
+            onChange={handleMonthChange}
           >
             {[...Array(12).keys()].map((i) => (
               <option key={i} value={i}>
@@ -88,7 +115,7 @@ export const SalesReport = ({ orders }) => {
             ))}
           </select>
         </div>
-        <div>
+        <div className="sales-summary">
           <h3>
             Sales for{" "}
             {selectedMonth.toLocaleString("default", {
@@ -96,19 +123,21 @@ export const SalesReport = ({ orders }) => {
               year: "numeric",
             })}
           </h3>
-          <p>Total Sales: ${totalSales.toFixed(2)}</p>
-          <p>Most Popular:</p>
-          <ul>
+          <p className="total-sales">Total Sales: ${totalSales.toFixed(2)}</p>
+          <p className="popular-header">Most Popular:</p>
+          <ul className="popular-items">
             <li>Size: {popularSize}</li>
             <li>Cheese: {popularCheese}</li>
             <li>Sauce: {popularSauce}</li>
-            <li>Toppings: {popularToppings.join(", ")}</li>
+            <li>
+              Toppings: {getToppingNames(popularToppings).join(", ") || "N/A"}
+            </li>
           </ul>
         </div>
       </div>
-      <div className="w-full md:w-1/2">
+      <div className="order-list-section">
         <h2>Order List</h2>
-        <table className="w-full">
+        <table className="orders-table">
           <thead>
             <tr>
               <th>Order ID</th>
@@ -120,7 +149,7 @@ export const SalesReport = ({ orders }) => {
             {ordersForMonth.map((order) => (
               <tr key={order.id}>
                 <td>{order.id}</td>
-                <td>${order.total.toFixed(2)}</td>
+                <td>${(order.total || 0).toFixed(2)}</td>
                 <td>{new Date(order.orderDate).toLocaleDateString()}</td>
               </tr>
             ))}
@@ -130,5 +159,3 @@ export const SalesReport = ({ orders }) => {
     </div>
   );
 };
-
-export default SalesReport;
