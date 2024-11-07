@@ -14,6 +14,11 @@ export const NavBar = () => {
     }
   }, []);
 
+  const handleLogout = () => {
+    localStorage.removeItem("pizza_user"); // Remove pizza_user on logout
+    navigate("/", { replace: true }); // Redirect to the homepage after logout
+  };
+
   return (
     <nav className="navbar">
       <ul className="navbar-list">
@@ -36,13 +41,11 @@ export const NavBar = () => {
         {/* Admin-only Links */}
         {isAdmin && (
           <>
-            {/* Admins get the Admin Orders link */}
             <li className="navbar-item">
               <Link to="/admin/orders" className="navbar-button">
-                <span>Orders</span>
+                <span>Admin Orders</span>
               </Link>
             </li>
-
             <li className="navbar-item">
               <Link to="/admin" className="navbar-button">
                 <span>Employees</span>
@@ -54,6 +57,15 @@ export const NavBar = () => {
               </Link>
             </li>
           </>
+        )}
+
+        {/* Logout link */}
+        {localStorage.getItem("pizza_user") && (
+          <li className="navbar-item navbar-logout">
+            <Link className="navbar-button" to="" onClick={handleLogout}>
+              Logout
+            </Link>
+          </li>
         )}
       </ul>
     </nav>
