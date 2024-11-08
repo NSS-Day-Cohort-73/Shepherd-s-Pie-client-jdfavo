@@ -48,9 +48,9 @@ export const ApplicationViews = () => {
     <Routes>
       {/* Main routes using Layout */}
       <Route element={<Layout />}>
-        <Route index element={<OrderList />} />
+        <Route index element={<OrderList isAdmin={isAdmin}/>} />
         <Route path="orders" element={<OrderList />} />
-        <Route path="orders/:orderId" element={<OrderDetails />} />
+        <Route path="orders/:orderId" element={<OrderDetails is Admin={isAdmin} />} />
         <Route path="createOrder" element={<CreateOrder />} />
         <Route path="/orders/:orderId/addPizza" element={<AddPizza />} />
         <Route path="/orders/update/:orderId" element={<UpdateOrder />} />
@@ -60,7 +60,8 @@ export const ApplicationViews = () => {
       {/* Admin routes */}
       {isAdmin ? (
         <Route path="admin" element={<AdminLayout />}>
-          <Route index element={<EmployeeList />} />
+          <Route index element={<EmployeeList isAdmin={isAdmin}/>} />
+          <Route path="orders/:orderId" element={<OrderDetails is Admin={isAdmin} />} />
           <Route path="employees/:employeeId" element={<EditEmployee />} />
           <Route path="orders" element={<OrderList />} />
           <Route path="createOrder" element={<CreateOrder />} />
