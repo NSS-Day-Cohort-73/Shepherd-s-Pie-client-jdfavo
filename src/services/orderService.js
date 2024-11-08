@@ -4,7 +4,7 @@ export const GetOrderById = async (id) => {
 };
 
 export const GetOrders = () => {
-  return fetch("http://localhost:8088/orders").then((response) =>
+  return fetch("http://localhost:8088/orders?&expand_user").then((response) =>
     response.json()
   );
 };
@@ -59,19 +59,17 @@ export const updateOrder = async (orderId, updatedOrderData) => {
     return data;
   } catch (error) {
     console.error("Error updating order:", error);
-    throw error; 
+    throw error;
   }
 };
-
 
 export const deleteOrder = async (orderId) => {
   try {
     const response = await fetch(`http://localhost:8088/orders/${orderId}`, {
       method: "DELETE",
       headers: {
-        "Content-Type": "application/json"
-      }
-      
+        "Content-Type": "application/json",
+      },
     });
 
     if (!response.ok) {
@@ -96,7 +94,7 @@ export const addPizzaToOrder = async (orderId, newPizza) => {
         items: [...existingItems, newPizza],
       }),
     });
-    
+
     if (!response.ok) {
       throw new Error("Failed to add pizza to the order.");
     }
@@ -106,4 +104,3 @@ export const addPizzaToOrder = async (orderId, newPizza) => {
     throw error;
   }
 };
-
