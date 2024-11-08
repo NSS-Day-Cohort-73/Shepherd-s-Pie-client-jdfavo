@@ -1,71 +1,69 @@
 import { useEffect, useState } from "react";
-import { NavBar } from "../components/nav/NavBar";
-import { OrderDetails } from "../components/orders/OrderDetails";
-import { Route, Routes, Navigate, useNavigate } from "react-router-dom";
-import { OrderList } from "../components/orders/OrderList.jsx";
+import { useLocation, Routes, Route, Navigate, Outlet } from "react-router-dom";
+import { NavBar } from "../components/nav/NavBar.jsx";
+import { OrderDetails } from "../components/orders/OrderDetails.jsx";
+import { OrderList } from "../components/orders/OrderList";
 import { EmployeeList } from "../components/employees/employeeList.jsx";
+import { EditEmployee } from "../components/employees/EditEmployee.jsx";
+import { CreateOrder } from "../components/orders/CreateOrder.jsx";
+import { SalesReport } from "../components/salesReport/salesReport.jsx";
+
+const Layout = () => {
+  return (
+    <>
+      <div>Shepard's Pie</div>
+      <NavBar />
+      <Outlet />
+    </>
+  );
+};
+
+const AdminLayout = () => {
+  return (
+    <>
+      <div>Admin Dashboard</div>
+      <NavBar />
+      <Outlet />
+    </>
+  );
+};
 
 export const ApplicationViews = () => {
   const [currentUser, setCurrentUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const localPizzaUser = localStorage.getItem("pizza_user");
     if (localPizzaUser) {
       const pizzaUserObject = JSON.parse(localPizzaUser);
       setCurrentUser(pizzaUserObject);
-
-      // If the user is an admin, redirect to the admin page
-      if (pizzaUserObject.isAdmin) {
-        navigate("/admin");
-      }
     }
-    setLoading(false); // Set loading to false after the check
-  }, [navigate]); // Dependency on navigate
+  }, []);
 
-  // Check if the user is an admin
   const isAdmin = currentUser?.isAdmin === true;
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <Routes>
-      {/* Default Route for the Home Page (Order List) */}
-      <Route
-        path="/orders"
-        element={
-          <>
-            <div>Shepard's Pie</div>
-            <NavBar />
-            <OrderList />
-            {/* <CreateOrder /> */} {/*uncomment to test create order*/}
-          </>
-        }
-      />
-      <Route path="/orders/:orderId" element={<OrderDetails />} />
+      {/* Main routes using Layout */}
+      <Route element={<Layout />}>
+        <Route index element={<OrderList />} />
+        <Route path="orders" element={<OrderList />} />
+        <Route path="orders/:orderId" element={<OrderDetails />} />
+        <Route path="createOrder" element={<CreateOrder />} />
+      </Route>
 
-      {/* Admin Route - only accessible if user is an admin */}
+      {/* Admin routes */}
       {isAdmin ? (
-        <Route
-          path="/admin"
-          element={
-            <>
-              <div>Admin Dashboard</div>
-              <NavBar />
-              {/* Admin-specific content can be added here */}
-              <EmployeeList />
-            </>
-          }
-        />
+        <Route path="admin" element={<AdminLayout />}>
+          <Route index element={<EmployeeList />} />
+          <Route path="employees/:employeeId" element={<EditEmployee />} />
+          <Route path="orders" element={<OrderList />} />
+          <Route path="createOrder" element={<CreateOrder />} />
+          <Route path="salesReport" element={<SalesReport />} />
+        </Route>
       ) : (
-        // Redirect non-admin users who try to access /admin
-        <Route path="/admin" element={<Navigate to="/" replace />} />
+        <Route path="admin/*" element={<Navigate to="/" replace />} />
       )}
     </Routes>
   );
 };
-
-//    setCurrentUser(pizzaUserObject);

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getEmployees } from "../../services/employeeService";
 import "./employee.css";
+import { Link, useNavigate } from "react-router-dom";
 
 export const EmployeeList = () => {
   const [employees, setEmployees] = useState([]);
@@ -10,11 +11,6 @@ export const EmployeeList = () => {
       setEmployees(e);
     });
   }, []);
-
-  const handleEmployeeEditBtn = (event) => {
-    event.preventDefault();
-    window.alert("navigate to edit employees component");
-  };
 
   return (
     <section>
@@ -47,7 +43,9 @@ export const EmployeeList = () => {
                 </span>
               </div>
               <div>
-                <button onClick={handleEmployeeEditBtn}>EDIT</button>
+                <Link to={`/admin/employees/${e.id}`}>
+                  <button>EDIT</button>
+                </Link>
               </div>
             </div>
           );
