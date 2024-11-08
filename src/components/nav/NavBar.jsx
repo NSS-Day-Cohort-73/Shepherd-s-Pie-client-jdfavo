@@ -14,6 +14,14 @@ export const NavBar = () => {
     }
   }, []);
 
+  const handleLogout = () => {
+    
+        localStorage.removeItem("pizza_user"); // Remove pizza_user on logout
+    
+        navigate("/", { replace: true }); // Redirect to the homepage after logout
+   
+      };
+
   return (
     <nav className="navbar">
       <ul className="navbar-list">
@@ -57,6 +65,15 @@ export const NavBar = () => {
               </Link>
             </li>
           </>
+        )}
+
+        {/* Logout link */}
+        {localStorage.getItem("pizza_user") && (
+          <li className="navbar-item navbar-logout">
+            <Link className="navbar-button" to="" onClick={handleLogout}>
+              Logout
+            </Link>
+          </li>
         )}
       </ul>
     </nav>
