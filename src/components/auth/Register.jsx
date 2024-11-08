@@ -6,7 +6,7 @@ import { createUser, getUserByEmail } from "../../services/userService";
 export const Register = (props) => {
   const [customer, setCustomer] = useState({
     email: "",
-    fullName: "",
+    name: "",
     isStaff: false,
   });
   const [error, setError] = useState("");
@@ -42,7 +42,8 @@ export const Register = (props) => {
 
   const updateCustomer = (evt) => {
     const copy = { ...customer };
-    copy[evt.target.id] = evt.target.type === "checkbox" ? evt.target.checked : evt.target.value;
+    copy[evt.target.id] =
+      evt.target.type === "checkbox" ? evt.target.checked : evt.target.value;
     setCustomer(copy);
   };
 
@@ -80,12 +81,8 @@ export const Register = (props) => {
         <fieldset>
           <div className="form-group">
             <label>
-              <input
-                onChange={updateCustomer}
-                type="checkbox"
-                id="isStaff"
-              />
-              I am an employee{" "}
+              <input onChange={updateCustomer} type="checkbox" id="isStaff" />I
+              am an employee{" "}
             </label>
           </div>
         </fieldset>
