@@ -7,7 +7,7 @@ import {
   getToppings,
   GetOrderById,
   updateOrder,
-  deleteOrder // New function for updating an order
+  deleteOrder
 } from "../../services/orderService";
 import "./Order.css";
 
@@ -28,6 +28,7 @@ export const UpdateOrder = () => {
   const [isDelivery, setIsDelivery] = useState(false);
   const [deliveryAddress, setDeliveryAddress] = useState("");
   const [tableNumber, setTableNumber] = useState(null);
+  const [pizzaPrice, setPizzaPrice] = useState(0); // Add pizza price state
 
   useEffect(() => {
     // Fetch all data needed for the form
@@ -44,19 +45,34 @@ export const UpdateOrder = () => {
       setCheeseOptions(cheeseData);
       setSauces(sauceData);
       setToppings(toppingsData);
-      
+
       // Set initial values based on current order data
-      setSelectedSize(orderData.items[0].size);
-      setSelectedCheese(orderData.items[0].cheese);
-      setSelectedSauce(orderData.items[0].sauce);
-      setSelectedToppings(orderData.items[0].toppings);
+      const currentItem = orderData.items[0];
+      setSelectedSize(currentItem.size);
+      setSelectedCheese(currentItem.cheese);
+      setSelectedSauce(currentItem.sauce);
+      setSelectedToppings(currentItem.toppings);
       setIsDelivery(orderData.isDelivery);
       setDeliveryAddress(orderData.deliveryAddress || "");
       setTableNumber(orderData.tableNumber || null);
+
+      // Initial price calculation
+      calculatePizzaPrice(currentItem.size, currentItem.toppings);
     };
 
     fetchData();
   }, [orderId]);
+
+  const calculatePizzaPrice = (size, toppings) => {
+    const sizePrice = sizes.find((s) => s.size === size)?.price || 0;
+    const toppingsPrice = toppings.length * 0.5; // Assuming each topping costs $0.5
+    setPizzaPrice(sizePrice + toppingsPrice);
+  };
+
+  // Update pizza price when size or toppings change
+  useEffect(() => {
+    calculatePizzaPrice(selectedSize, selectedToppings);
+  }, [selectedSize, selectedToppings, sizes]);
 
   const handleToppingChange = (topping) => {
     setSelectedToppings((prev) =>
@@ -74,22 +90,23 @@ export const UpdateOrder = () => {
       tableNumber: isDelivery ? null : tableNumber,
       items: [
         {
-          id: order.items[0].id, // Ensure item ID remains consistent
+          id: order.items[0].id,
           size: selectedSize,
           cheese: selectedCheese,
           sauce: selectedSauce,
           toppings: selectedToppings,
+          totalPrice: pizzaPrice // Include calculated price
         },
       ],
     };
 
-    await updateOrder(orderId, updatedOrder); // PUT request to update order
-    navigate("/orders"); // Redirect to orders page
+    await updateOrder(orderId, updatedOrder);
+    navigate("/orders");
   };
 
   const handleRemoveOrder = async () => {
-    await deleteOrder(orderId); 
-    navigate("/orders"); 
+    await deleteOrder(orderId);
+    navigate("/orders");
   };
 
   return (
@@ -192,6 +209,10 @@ export const UpdateOrder = () => {
                 ))}
               </select>
             )}
+          </div>
+
+          <div className="order-summary">
+            <p>Total Pizza Price: ${pizzaPrice.toFixed(2)}</p>
           </div>
 
           <div className="order-actions">

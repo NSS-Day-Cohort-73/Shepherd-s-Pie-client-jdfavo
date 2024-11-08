@@ -11,7 +11,9 @@ import { OrderDetails } from "../components/orders/OrderDetails.jsx";
 import { OrderList } from "../components/orders/OrderList";
 import { EmployeeList } from "../components/employees/employeeList.jsx";
 import { CreateOrder } from "../components/orders/CreateOrder.jsx";
-import { UpdateOrder } from "../components/orders/UpdateOrder.jsx"; // Import UpdateOrder component
+import { UpdateOrder } from "../components/orders/UpdateOrder.jsx";
+import { AddPizza } from "../components/orders/AddPizza.jsx";
+
 
 export const ApplicationViews = () => {
   const [currentUser, setCurrentUser] = useState(null);
@@ -44,8 +46,8 @@ export const ApplicationViews = () => {
       />
 
       <Route path="/orders/:orderId" element={<OrderDetails />} />
+      <Route path="/orders/:orderId/addPizza" element={<AddPizza />} />
 
-      {/* Add UpdateOrder route with orderId parameter */}
       <Route path="/orders/update/:orderId" element={<UpdateOrder />} />
 
       {/* Admin routes */}

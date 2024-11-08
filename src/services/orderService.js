@@ -84,3 +84,26 @@ export const deleteOrder = async (orderId) => {
     throw error;
   }
 };
+
+export const addPizzaToOrder = async (orderId, newPizza) => {
+  try {
+    const response = await fetch(`http://localhost:8088/orders/${orderId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        items: [...existingItems, newPizza],
+      }),
+    });
+    
+    if (!response.ok) {
+      throw new Error("Failed to add pizza to the order.");
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Error adding pizza:", error);
+    throw error;
+  }
+};
+
