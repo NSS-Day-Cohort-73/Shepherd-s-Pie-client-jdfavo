@@ -11,6 +11,7 @@ export const OrderDetails = () => {
   const navigate = useNavigate();
   const [order, setOrder] = useState(null);
   const [toppings, setToppings] = useState([]);
+  const deliverySurcharge = 5;
 
   useEffect(() => {
     const fetchOrder = async () => {
@@ -36,8 +37,8 @@ export const OrderDetails = () => {
   };
   
 
-  const handleUpdate = (itemId) => {
-    navigate(`/orders/update/${orderId}`); // Navigate to UpdateOrder with order ID
+  const handleUpdate = () => {
+    navigate(`/orders/update/${orderId}`); 
   };
 
   // const handleRemove = async (itemId) => {
@@ -45,7 +46,9 @@ export const OrderDetails = () => {
   //   await deleteOrder(itemId);
   //   navigate("/orders"); // Navigate back to orders list after deletion
   // };
-  const computedTotalCost = order ? order.items.reduce((sum, item) => sum + (item.totalPrice || 0), 0) : 0;
+  const computedTotalCost = order
+  ? order.items.reduce((sum, item) => sum + (item.totalPrice || 0), 0) + (order.isDelivery ? deliverySurcharge : 0)
+  : 0;
 
   if (!order) return <p>Loading order details...</p>;
 

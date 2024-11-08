@@ -8,6 +8,7 @@ import {
   postOrder,
 } from "../../services/orderService";
 import "./Order.css";
+import { useNavigate } from "react-router-dom";
 
 export const CreateOrder = () => {
   // Gathering state
@@ -35,6 +36,8 @@ export const CreateOrder = () => {
   const [isDataLoaded, setIsDataLoaded] = useState(false);
 
   // Fetch and normalize data on component mount
+  const navigate = useNavigate();
+
   useEffect(() => {
     Promise.all([
       getSizes(),
@@ -160,6 +163,8 @@ export const CreateOrder = () => {
         };
       });
 
+  
+
       const subtotal = orderItems.reduce((sum, item) => sum + item.totalPrice, 0);
       const total = (subtotal) + (isDeliveryBtn ? Number(deliverySurcharge) : 0);
 
@@ -186,7 +191,8 @@ export const CreateOrder = () => {
         setCustomerName("");
         setPhoneNumber("");
         setTableNumber(null);
-      });
+      })
+      navigate("/orders");
     };
   };
 
@@ -303,7 +309,7 @@ export const CreateOrder = () => {
             required
           />
           <input
-            type="tel"
+            type="text"
             value={phoneNumber}
             onChange={(e) => setPhoneNumber(e.target.value)}
             placeholder="Phone Number"
