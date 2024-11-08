@@ -209,16 +209,21 @@ export const UpdateOrder = () => {
                 ))}
               </select>
             )}
+
+          <div className="order-actions">
+            <footer>
+            <button onClick={handleUpdateOrder}>Save Changes</button>
+
+            <button onClick={handleRemoveOrder}>Remove Order</button>
+
+            <button onClick={() => navigate("/orders")}>Back to Orders</button>
+            </footer>
+          </div>
           </div>
 
           <div className="order-summary">
             <p>Total Pizza Price: ${pizzaPrice.toFixed(2)}</p>
-          </div>
 
-          <div className="order-actions">
-            <button onClick={handleUpdateOrder}>Save Changes</button>
-            <button onClick={handleRemoveOrder}>Remove Order</button>
-            <button onClick={() => navigate("/orders")}>Back to Orders</button>
           </div>
         </div>
       )}
