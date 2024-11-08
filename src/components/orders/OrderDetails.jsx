@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { GetOrderById, deleteOrder, getToppings } from "../../services/orderService";
-import { assignDriverToOrder, getEmployees } from "../../services/employeeService"; // updated import
+import { GetOrderById, getToppings } from "../../services/orderService";
+import { assignDriverToOrder, getEmployees } from "../../services/employeeService"; 
 import "./Order.css";
 
 export const OrderDetails = () => {
@@ -10,7 +10,7 @@ export const OrderDetails = () => {
   
   const [order, setOrder] = useState(null);
   const [toppings, setToppings] = useState([]);
-  const [drivers, setDrivers] = useState([]); // renaming to 'drivers' for clarity
+  const [drivers, setDrivers] = useState([]); 
   const [selectedDriver, setSelectedDriver] = useState(null);
 
   const deliverySurcharge = 5;
@@ -25,7 +25,7 @@ export const OrderDetails = () => {
 
       // Fetch all employees for driver selection if it's an admin and delivery order
       if (isAdmin && orderData.isDelivery) {
-        const employeesData = await getEmployees(); // Fetch all employees
+        const employeesData = await getEmployees(); 
         setDrivers(employeesData);
       }
     };

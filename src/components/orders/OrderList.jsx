@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { GetOrders } from "../../services/orderService";
-import { getEmployees } from "../../services/employeeService"; // Import employee service
+import { getEmployees } from "../../services/employeeService";
 import "./Order.css";
 
 export const OrderList = ({ isAdmin }) => {
   const [orders, setOrders] = useState([]);
-  const [employees, setEmployees] = useState([]); // State to hold employees data
+  const [employees, setEmployees] = useState([]); 
   const location = useLocation();
-  const deliverySurcharge = 5; // For testing
+  const deliverySurcharge = 5; 
 
   const fetchOrders = async () => {
     try {
@@ -35,7 +35,6 @@ export const OrderList = ({ isAdmin }) => {
     fetchOrders();
   }, [location]);
 
-  // Function to get driver name based on driverId
   const getDriverName = (driverId) => {
     const driver = employees.find((employee) => employee.id === driverId);
     return driver ? driver.name : "Not Assigned";
