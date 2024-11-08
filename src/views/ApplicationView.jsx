@@ -10,6 +10,8 @@ import { NavBar } from "../components/nav/NavBar.jsx";
 import { OrderDetails } from "../components/orders/OrderDetails.jsx";
 import { OrderList } from "../components/orders/OrderList";
 import { EmployeeList } from "../components/employees/employeeList.jsx";
+import { CreateOrder } from "../components/orders/CreateOrder.jsx";
+import { UpdateOrder } from "../components/orders/UpdateOrder.jsx"; // Import UpdateOrder component
 
 export const ApplicationViews = () => {
   const [currentUser, setCurrentUser] = useState(null);
@@ -30,17 +32,21 @@ export const ApplicationViews = () => {
   return (
     <Routes>
       <Route
-        path="/"
+        path="/orders"
         element={
           <>
             <div>Shepard's Pie</div>
             <NavBar />
             <OrderList />
+            <CreateOrder />
           </>
         }
       />
 
       <Route path="/orders/:orderId" element={<OrderDetails />} />
+
+      {/* Add UpdateOrder route with orderId parameter */}
+      <Route path="/orders/update/:orderId" element={<UpdateOrder />} />
 
       {/* Admin routes */}
       {isAdmin && (

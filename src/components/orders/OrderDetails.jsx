@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { GetOrderById } from "../../services/orderService";
+import { GetOrderById, deleteOrder } from "../../services/orderService";
 import { getToppings } from "../../services/orderService";
 import "./Order.css"; // 
 
@@ -23,10 +23,28 @@ export const OrderDetails = () => {
   }, [orderId]);
 
   const getToppingNames = (toppingIds) => {
-    return toppingIds.map(id => {
-      const topping = toppings.find(top => top.id == id);
-      return topping ? topping.name : "Unknown";
+    return toppingIds.map(idOrName => {
+      // Check if idOrName is a string and directly matches a topping name
+      if (typeof idOrName === "string") {
+        const toppingByName = toppings.find(top => top.name.toLowerCase() === idOrName.toLowerCase());
+        if (toppingByName) return toppingByName.name;
+      }
+      
+      // If it's not a name, assume it's an ID and look up by ID
+      const toppingById = toppings.find(top => top.id == Number(idOrName));
+      return toppingById ? toppingById.name : "Unknown";
     });
+  };
+  
+
+  const handleUpdate = (itemId) => {
+    navigate(`/orders/update/${orderId}`); // Navigate to UpdateOrder with order ID
+  };
+
+  const handleRemove = async (itemId) => {
+    // Call the deleteOrder function to remove the item
+    await deleteOrder(itemId);
+    navigate("/orders"); // Navigate back to orders list after deletion
   };
 
   if (!order) return <p>Loading order details...</p>;
@@ -46,9 +64,13 @@ export const OrderDetails = () => {
               <p><strong>Toppings:</strong> {getToppingNames(item.toppings).join(", ")}</p>
             </div>
             <div className="pizza-actions">
-              <button className="update-btn">Update</button>
-              <button className="remove-btn">Remove</button>
-              <p className="pizza-cost"><strong>Cost:</strong> ${item.totalPrice.toFixed(2)}</p>
+              <button className="update-btn" onClick={() => handleUpdate(item.id)}>
+                Update
+              </button>
+              <button className="remove-btn" onClick={() => handleRemove(item.id)}>
+                Remove
+              </button>
+              <p className="pizza-cost"><strong>Cost:</strong> ${item.totalPrice ? item.totalPrice.toFixed(2) : "0.00"}</p>
             </div>
           </div>
         ))}
@@ -62,7 +84,7 @@ export const OrderDetails = () => {
 
       <div className="order-actions">
         <button className="add-pizza-btn">Add Pizza</button>
-        <button className="finish-btn">Finish Updating</button>
+        <button className="finish-btn" onClick={() => navigate("/orders")}>Finish Updating</button>
       </div>
     </div>
   );
