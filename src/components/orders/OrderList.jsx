@@ -6,21 +6,21 @@ import "./Order.css";
 
 export const OrderList = ({ isAdmin }) => {
   const [orders, setOrders] = useState([]);
-  const [employees, setEmployees] = useState([]); 
+  const [employees, setEmployees] = useState([]);
   const location = useLocation();
-  const deliverySurcharge = 5; 
+  const deliverySurcharge = 5;
 
   const fetchOrders = async () => {
     try {
       const ordersData = await GetOrders();
       const employeesData = await getEmployees();
-      
+
       if (ordersData && Array.isArray(ordersData)) {
         setOrders(ordersData);
       } else {
         console.error("Unexpected data format:", ordersData);
       }
-      
+
       if (employeesData && Array.isArray(employeesData)) {
         setEmployees(employeesData);
       } else {
@@ -37,7 +37,7 @@ export const OrderList = ({ isAdmin }) => {
 
   const getDriverName = (driverId) => {
     const driver = employees.find((employee) => employee.id === driverId);
-    return driver ? driver.name : "Not Assigned";
+    return driver ? driver.fullName : "Not Assigned";
   };
 
   return (

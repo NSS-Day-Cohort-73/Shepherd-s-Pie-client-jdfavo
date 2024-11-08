@@ -7,7 +7,7 @@ import {
   getToppings,
   GetOrderById,
   updateOrder,
-  deleteOrder
+  deleteOrder,
 } from "../../services/orderService";
 import "./Order.css";
 
@@ -33,13 +33,14 @@ export const UpdateOrder = () => {
   useEffect(() => {
     // Fetch all data needed for the form
     const fetchData = async () => {
-      const [orderData, sizesData, cheeseData, sauceData, toppingsData] = await Promise.all([
-        GetOrderById(orderId),
-        getSizes(),
-        getCheese(),
-        getSauce(),
-        getToppings(),
-      ]);
+      const [orderData, sizesData, cheeseData, sauceData, toppingsData] =
+        await Promise.all([
+          GetOrderById(orderId),
+          getSizes(),
+          getCheese(),
+          getSauce(),
+          getToppings(),
+        ]);
       setOrder(orderData);
       setSizes(sizesData);
       setCheeseOptions(cheeseData);
@@ -83,21 +84,28 @@ export const UpdateOrder = () => {
   };
 
   const handleUpdateOrder = async () => {
+    // Find the index of the pizza we're updating
+    const pizzaIndex = order.items.findIndex(
+      (item) => item.id === order.items[0].id
+    );
+
+    // Create new items array with the updated pizza
+    const updatedItems = [...order.items];
+    updatedItems[pizzaIndex] = {
+      id: order.items[0].id,
+      size: selectedSize,
+      cheese: selectedCheese,
+      sauce: selectedSauce,
+      toppings: selectedToppings,
+      totalPrice: pizzaPrice,
+    };
+
     const updatedOrder = {
       ...order,
       isDelivery,
       deliveryAddress: isDelivery ? deliveryAddress : null,
       tableNumber: isDelivery ? null : tableNumber,
-      items: [
-        {
-          id: order.items[0].id,
-          size: selectedSize,
-          cheese: selectedCheese,
-          sauce: selectedSauce,
-          toppings: selectedToppings,
-          totalPrice: pizzaPrice // Include calculated price
-        },
-      ],
+      items: updatedItems, // Use the updated items array
     };
 
     await updateOrder(orderId, updatedOrder);
@@ -210,20 +218,21 @@ export const UpdateOrder = () => {
               </select>
             )}
 
-          <div className="order-actions">
-            <footer>
-            <button onClick={handleUpdateOrder}>Save Changes</button>
+            <div className="order-actions">
+              <footer>
+                <button onClick={handleUpdateOrder}>Save Changes</button>
 
-            <button onClick={handleRemoveOrder}>Remove Order</button>
+                <button onClick={handleRemoveOrder}>Remove Order</button>
 
-            <button onClick={() => navigate("/orders")}>Back to Orders</button>
-            </footer>
-          </div>
+                <button onClick={() => navigate("/orders")}>
+                  Back to Orders
+                </button>
+              </footer>
+            </div>
           </div>
 
           <div className="order-summary">
             <p>Total Pizza Price: ${pizzaPrice.toFixed(2)}</p>
-
           </div>
         </div>
       )}
