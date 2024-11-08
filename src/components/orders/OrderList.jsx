@@ -1,29 +1,44 @@
 import React, { useEffect, useState } from "react";
-import { Link,useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { GetOrders } from "../../services/orderService";
+import { getEmployees } from "../../services/employeeService";
 import "./Order.css";
 
-
-export const OrderList = () => {
+export const OrderList = ({ isAdmin }) => {
   const [orders, setOrders] = useState([]);
-  const location = useLocation()
-  const deliverySurcharge = 5; // For testing
+  const [employees, setEmployees] = useState([]); 
+  const location = useLocation();
+  const deliverySurcharge = 5; 
+
   const fetchOrders = async () => {
     try {
       const ordersData = await GetOrders();
+      const employeesData = await getEmployees();
+      
       if (ordersData && Array.isArray(ordersData)) {
         setOrders(ordersData);
       } else {
         console.error("Unexpected data format:", ordersData);
       }
+      
+      if (employeesData && Array.isArray(employeesData)) {
+        setEmployees(employeesData);
+      } else {
+        console.error("Unexpected employee data format:", employeesData);
+      }
     } catch (error) {
-      console.error("Error fetching orders:", error);
+      console.error("Error fetching data:", error);
     }
   };
 
   useEffect(() => {
     fetchOrders();
-  }, [location.state?.newOrder]);
+  }, [location]);
+
+  const getDriverName = (driverId) => {
+    const driver = employees.find((employee) => employee.id === driverId);
+    return driver ? driver.name : "Not Assigned";
+  };
 
   return (
     <div className="container">
@@ -33,7 +48,13 @@ export const OrderList = () => {
           <li key={order.id} className="order-card">
             <h3>Order #{order.id}</h3>
             <p>
-              {order.isDelivery ? "Delivery" : `Table ${order.tableNumber}`}
+              {order.isDelivery
+                ? `Delivery ${
+                    order.driverId
+                      ? `- Driver: ${getDriverName(order.driverId)}`
+                      : ": Not Assigned"
+                  }`
+                : `Table ${order.tableNumber}`}
             </p>
             <p>
               Total: $
@@ -46,9 +67,8 @@ export const OrderList = () => {
                   ).toFixed(2)
                 : (order.total || 0).toFixed(2)}
             </p>
-
             <p>Placed at: {new Date(order.orderDate).toLocaleTimeString()}</p>
-            <Link to={`/orders/${order.id}`}>
+            <Link to={`/orders/${order.id}`} state={{ isAdmin }}>
               <button className="details-btn">Details</button>
             </Link>
           </li>

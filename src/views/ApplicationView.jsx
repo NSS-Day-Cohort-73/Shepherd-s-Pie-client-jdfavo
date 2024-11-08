@@ -60,7 +60,8 @@ export const ApplicationViews = () => {
       {/* Admin routes */}
       {isAdmin ? (
         <Route path="admin" element={<AdminLayout />}>
-          <Route index element={<EmployeeList />} />
+          <Route index element={<EmployeeList/>} />
+          <Route path="orders/:orderId" element={<OrderDetails />} />
           <Route path="employees/:employeeId" element={<EditEmployee />} />
           <Route path="orders" element={<OrderList />} />
           <Route path="createOrder" element={<CreateOrder />} />
