@@ -191,8 +191,8 @@ export const CreateOrder = () => {
         setCustomerName("");
         setPhoneNumber("");
         setTableNumber(null);
+        navigate("/orders", { state: { newOrder: true } });
       })
-      navigate("/orders");
     };
   };
 

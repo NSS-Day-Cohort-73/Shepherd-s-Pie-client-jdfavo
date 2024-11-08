@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link,useLocation } from "react-router-dom";
 import { GetOrders } from "../../services/orderService";
 import "./Order.css";
 
+
 export const OrderList = () => {
   const [orders, setOrders] = useState([]);
-
+  const location = useLocation()
+  const deliverySurcharge = 5; // For testing
   const fetchOrders = async () => {
     try {
       const ordersData = await GetOrders();
@@ -21,7 +23,7 @@ export const OrderList = () => {
 
   useEffect(() => {
     fetchOrders();
-  }, []);
+  }, [location.state?.newOrder]);
 
   return (
     <div className="container">
@@ -36,9 +38,12 @@ export const OrderList = () => {
             <p>
               Total: $
               {order.items && order.items.length > 0
-                ? order.items
-                    .reduce((sum, item) => sum + (item.totalPrice || 0), 0)
-                    .toFixed(2)
+                ? (
+                    order.items.reduce(
+                      (sum, item) => sum + (item.totalPrice || 0),
+                      0
+                    ) + (order.isDelivery ? deliverySurcharge : 0)
+                  ).toFixed(2)
                 : (order.total || 0).toFixed(2)}
             </p>
 
