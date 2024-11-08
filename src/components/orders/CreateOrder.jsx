@@ -137,7 +137,7 @@ export const CreateOrder = () => {
       return acc + sizeCost + toppingsCost;
     }, 0);
 
-    setTotalCost(cartTotal + (isDeliveryBtn ? deliverySurcharge : 0));
+    setTotalCost(cartTotal + (isDeliveryBtn ? Number(deliverySurcharge) : 0));
   }, [currentCart, sizes, isDeliveryBtn, deliverySurcharge]);
 
   const handleSubmitOrder = (event) => {
@@ -161,7 +161,7 @@ export const CreateOrder = () => {
       });
 
       const subtotal = orderItems.reduce((sum, item) => sum + item.totalPrice, 0);
-      const total = subtotal + (isDeliveryBtn ? deliverySurcharge : 0);
+      const total = (subtotal) + (isDeliveryBtn ? Number(deliverySurcharge) : 0);
 
       const newOrder = {
         customerName,
