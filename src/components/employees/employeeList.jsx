@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getEmployees } from "../../services/employeeService";
 import { GetOrders } from "../../services/orderService";
+import { Link } from "react-router-dom"; // Make sure you import Link
 import "./employee.css";
 
 export const EmployeeList = () => {
@@ -66,13 +67,21 @@ export const EmployeeList = () => {
     return <div>{error}</div>;
   }
 
+  if (employees.length === 0) {
+    return <div>No employees found</div>;
+  }
+
+  if (orders.length === 0) {
+    return <div>No orders found</div>;
+  }
+
   return (
     <section>
       <header>Current Employees</header>
       <div className="employee-grid">
         {employees.map(({ id, name, phone, address, email }) => {
           // Use the count from the state
-          const orderCount = employeeOrdersCount[id] || 0;
+          const orderCount = employeeOrdersCount[id] || 0; // Default to 0 if no count found
           return (
             <div key={id} className="employee-card">
               <h2>{name}</h2>
@@ -95,6 +104,11 @@ export const EmployeeList = () => {
               <div className="info-row">
                 <span className="label"># of Orders:</span>
                 <span className="value">{orderCount}</span>
+              </div>
+              <div>
+                <Link to={`/admin/employees/${id}`}>
+                  <button>EDIT</button>
+                </Link>
               </div>
             </div>
           );
