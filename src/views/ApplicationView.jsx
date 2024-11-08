@@ -7,6 +7,8 @@ import { EmployeeList } from "../components/employees/employeeList.jsx";
 import { EditEmployee } from "../components/employees/EditEmployee.jsx";
 import { CreateOrder } from "../components/orders/CreateOrder.jsx";
 import { SalesReport } from "../components/salesReport/salesReport.jsx";
+import { UpdateOrder } from "../components/orders/updateOrder.jsx";
+import { AddPizza } from "../components/orders/AddPizza.jsx";
 
 const Layout = () => {
   return (
@@ -50,6 +52,9 @@ export const ApplicationViews = () => {
         <Route path="orders" element={<OrderList />} />
         <Route path="orders/:orderId" element={<OrderDetails />} />
         <Route path="createOrder" element={<CreateOrder />} />
+        <Route path="/orders/:orderId/addPizza" element={<AddPizza />} />
+        <Route path="/orders/update/:orderId" element={<UpdateOrder />} />
+        
       </Route>
 
       {/* Admin routes */}

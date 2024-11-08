@@ -11,25 +11,31 @@ import "./Order.css";
 import { useNavigate } from "react-router-dom";
 
 export const CreateOrder = () => {
-  //gathering state
+  // Gathering state
   const [sizes, setSizes] = useState([]);
   const [cheese, setCheese] = useState([]);
   const [sauces, setSauces] = useState([]);
   const [toppings, setToppings] = useState([]);
   const [deliverySurcharge, setDeliverySurcharge] = useState(0);
 
-  //setting state
+  // Order state
   const [selectedSize, setSelectedSize] = useState(0);
   const [selectedCheese, setSelectedCheese] = useState(0);
   const [selectedSauces, setSelectedSauces] = useState(0);
   const [selectedToppings, setSelectedToppings] = useState([]);
   const [totalCost, setTotalCost] = useState(0);
   const [currentCart, setCurrentCart] = useState([]);
-  const [currentCartPreview, setCurrentCartPreview] = useState({});
+  const [currentCartPreview, setCurrentCartPreview] = useState([]);
   const [deliveryAddress, setDeliveryAddress] = useState("");
   const [isDeliveryBtn, setIsDeliveryBtn] = useState(false);
-  const [submitOrderBtn, setSubmitOrderBtn] = useState(false);
+  const [customerName, setCustomerName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [tableNumber, setTableNumber] = useState(null);
 
+  // Loading state for data readiness check
+  const [isDataLoaded, setIsDataLoaded] = useState(false);
+
+  // Fetch and normalize data on component mount
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -41,11 +47,15 @@ export const CreateOrder = () => {
       getDeliveryStatus(),
     ]).then(
       ([sizesData, cheeseData, sauceData, toppingsData, deliveryData]) => {
-        setSizes(sizesData);
-        setCheese(cheeseData);
-        setSauces(sauceData);
-        setToppings(toppingsData);
+        const normalizeData = (data) =>
+          data.map((item) => ({ ...item, id: Number(item.id) }));
+
+        setSizes(normalizeData(sizesData));
+        setCheese(normalizeData(cheeseData));
+        setSauces(normalizeData(sauceData));
+        setToppings(normalizeData(toppingsData));
         setDeliverySurcharge(deliveryData);
+        setIsDataLoaded(true); // Set data as loaded
       }
     );
   }, []);
@@ -53,10 +63,8 @@ export const CreateOrder = () => {
   const handleToppingChange = (toppingId) => {
     setSelectedToppings((prevToppings) => {
       if (prevToppings.includes(toppingId)) {
-        // If topping is already selected, remove it
         return prevToppings.filter((t) => t !== toppingId);
       } else {
-        // If topping is not selected, add it
         return [...prevToppings, toppingId];
       }
     });
@@ -65,132 +73,127 @@ export const CreateOrder = () => {
   const handleAddToCart = (event) => {
     event.preventDefault();
 
+    // Prevent adding to cart if data is not fully loaded
+    if (!isDataLoaded) {
+      alert("Data is still loading. Please try again in a moment.");
+      return;
+    }
+
     // Check if required selections are made
     if (selectedCheese === 0 || selectedSauces === 0 || selectedSize === 0) {
       alert("Please select size, cheese, and sauce before adding to cart");
       return;
     }
 
-    // If we get here, all required selections are made
-    console.log("new cart item being created...");
+    // Retrieve full details for each selection with consistent ID type
+    const sizeDetails = sizes.find((s) => s.id === Number(selectedSize));
+    const cheeseDetails = cheese.find((c) => c.id === Number(selectedCheese));
+    const sauceDetails = sauces.find((s) => s.id === Number(selectedSauces));
+    const toppingDetails = selectedToppings
+      .map((toppingId) => toppings.find((t) => t.id === Number(toppingId)))
+      .filter(Boolean); // Filter out any undefined toppings
+
+    if (!sizeDetails || !cheeseDetails || !sauceDetails) {
+      console.log("Selected item details could not be found. Please try again.");
+      return;
+    }
+
     const newCartItem = {
-      size: selectedSize,
-      cheese: selectedCheese,
-      sauce: selectedSauces,
-      toppings: selectedToppings,
+      size: { id: sizeDetails.id, name: sizeDetails.size },
+      cheese: { id: cheeseDetails.id, name: cheeseDetails.name },
+      sauce: { id: sauceDetails.id, name: sauceDetails.name },
+      toppings: toppingDetails.map((t) => ({ id: t.id, name: t.name })),
     };
 
-    const updatedCart = [...currentCart, newCartItem];
-    setCurrentCart(updatedCart);
+    setCurrentCart([...currentCart, newCartItem]);
 
-    // const currentCartSizes = sizes.find((s) => s.id === newCartItem.size);
-    // const updatedSizes = [...currentCartPreview, currentCartSizes.size];
-    // setCurrentCartPreview(updatedSizes);
-
-    // Reset form only after successful addition
+    // Reset form selections
     setSelectedCheese(0);
     setSelectedSauces(0);
     setSelectedSize(0);
     setSelectedToppings([]);
   };
 
-  //Just for the current cart preview
+  // Cart preview effect
   useEffect(() => {
     if (currentCart.length > 0) {
-      // Map through the entire cart to create preview data
-      const previewItems = currentCart.map((item) => {
-        const sizeDetails = sizes.find((s) => s.id === item.size);
-        const itemId = `${Date.now()}-${Math.random()
-          .toString(36)
-          .substr(2, 9)}`;
-        return {
-          id: itemId,
-          size: sizeDetails?.size,
-        };
-      });
+      const previewItems = currentCart.map((item, index) => ({
+        id: `${Date.now()}-${index}`,
+        size: item.size.name,
+        cheese: item.cheese.name,
+        sauce: item.sauce.name,
+        toppings: item.toppings.map((topping) => topping.name).join(", "),
+      }));
 
       setCurrentCartPreview(previewItems);
     } else {
-      setCurrentCartPreview([]); // Reset preview when cart is empty
+      setCurrentCartPreview([]);
     }
   }, [currentCart]);
 
-  //Total Cost Updating
+  // Total cost calculation
   useEffect(() => {
-    if (currentCart.length > 0) {
-      const currentPizzaToCalc = currentCart.at(-1);
-      console.log(currentPizzaToCalc);
-      const toppingsCalc = currentPizzaToCalc.toppings.length * 0.5;
-      const sizeToCalc = sizes.find(
-        (pizza) => pizza.id === currentPizzaToCalc.size
-      );
-      const sizeCalc = sizeToCalc.price;
-      const currentPizzaCost = toppingsCalc + sizeCalc;
-      setTotalCost((prevTotal) => prevTotal + currentPizzaCost);
-    }
-  }, [currentCart]);
+    const cartTotal = currentCart.reduce((acc, item) => {
+      const sizeDetails = sizes.find((s) => s.id === item.size.id);
+      const toppingsCost = item.toppings.length * 0.5;
+      const sizeCost = sizeDetails ? sizeDetails.price : 0;
+      return acc + sizeCost + toppingsCost;
+    }, 0);
+
+    setTotalCost(cartTotal + (isDeliveryBtn ? Number(deliverySurcharge) : 0));
+  }, [currentCart, sizes, isDeliveryBtn, deliverySurcharge]);
 
   const handleSubmitOrder = (event) => {
     event.preventDefault();
 
     if (currentCart.length > 0) {
-      // Calculate total order price
       const orderItems = currentCart.map((item, index) => {
-        const sizeDetails = sizes.find((s) => s.id === item.size);
-        const cheeseDetails = cheese.find((c) => c.id === item.cheese);
-        const sauceDetails = sauces.find((s) => s.id === item.sauce);
-        const toppingsPrice = item.toppings.length * 0.5; // Assuming $0.50 per topping
+        const sizeDetails = sizes.find((s) => s.id === item.size.id);
+        const toppingsPrice = item.toppings.length * 0.5;
 
         return {
           id: index + 1,
-          size: sizeDetails.size,
-          cheese: cheeseDetails.name,
-          sauce: sauceDetails.name,
-          toppings: item.toppings,
-          basePrice: sizeDetails.price,
+          size: item.size.name,
+          cheese: item.cheese.name,
+          sauce: item.sauce.name,
+          toppings: item.toppings.map((t) => t.name),
+          basePrice: sizeDetails ? sizeDetails.price : 0,
           toppingsPrice: toppingsPrice,
-          totalPrice: sizeDetails.price + toppingsPrice,
+          totalPrice: (sizeDetails ? sizeDetails.price : 0) + toppingsPrice,
         };
       });
 
-      const subtotal = orderItems.reduce(
-        (sum, item) => sum + item.totalPrice,
-        0
-      );
-      const deliveryFee = isDeliveryBtn ? 10 : 0;
-      const total = subtotal + deliveryFee;
+  
+
+      const subtotal = orderItems.reduce((sum, item) => sum + item.totalPrice, 0);
+      const total = (subtotal) + (isDeliveryBtn ? Number(deliverySurcharge) : 0);
 
       const newOrder = {
-        // customerName: customerName, // need this state
-        // phoneNumber: phoneNumber, // need this state
+        customerName,
+        phoneNumber,
         isDelivery: isDeliveryBtn,
         deliveryAddress: isDeliveryBtn ? deliveryAddress : null,
+        tableNumber: !isDeliveryBtn ? tableNumber : null,
         orderDate: new Date().toISOString(),
         items: orderItems,
-        subtotal: subtotal,
-        total: total,
+        subtotal,
+        total,
       };
-
-      // Post the order
-      postOrder(newOrder)
-        .then((response) => response.json())
-        .then(() => {
-          // Clear cart and reset form
-          setCurrentCart([]);
-          setCurrentCartPreview([]);
-          setSelectedSize(0);
-          setSelectedCheese(0);
-          setSelectedSauces(0);
-          setSelectedToppings([]);
-          setDeliveryAddress("");
-          // Reset other form fields
-          //   setCustomerName("");
-          //   setPhoneNumber("");
-        })
-        .then(() => {
-          navigate("/");
-        });
-    }
+  
+      postOrder(newOrder).then(() => {
+        setCurrentCart([]);
+        setCurrentCartPreview([]);
+        setSelectedSize(0);
+        setSelectedCheese(0);
+        setSelectedSauces(0);
+        setSelectedToppings([]);
+        setDeliveryAddress("");
+        setCustomerName("");
+        setPhoneNumber("");
+        setTableNumber(null);
+        navigate("/orders", { state: { newOrder: true } });
+      })
+    };
   };
 
   return (
@@ -203,9 +206,7 @@ export const CreateOrder = () => {
               <label>SIZES : </label>
               <select
                 value={selectedSize}
-                onChange={(e) => {
-                  setSelectedSize(parseInt(e.target.value));
-                }}
+                onChange={(e) => setSelectedSize(Number(e.target.value))}
               >
                 <option value={0}>Choose Size</option>
                 {sizes.map((size) => (
@@ -220,14 +221,12 @@ export const CreateOrder = () => {
               <label>CHEESE : </label>
               <select
                 value={selectedCheese}
-                onChange={(e) => {
-                  setSelectedCheese(parseInt(e.target.value));
-                }}
+                onChange={(e) => setSelectedCheese(Number(e.target.value))}
               >
                 <option value={0}>Choose Cheese</option>
-                {cheese.map((cheese) => (
-                  <option key={cheese.id} value={cheese.id}>
-                    {cheese.name}
+                {cheese.map((cheeseItem) => (
+                  <option key={cheeseItem.id} value={cheeseItem.id}>
+                    {cheeseItem.name}
                   </option>
                 ))}
               </select>
@@ -237,9 +236,7 @@ export const CreateOrder = () => {
               <label>SAUCE : </label>
               <select
                 value={selectedSauces}
-                onChange={(s) => {
-                  setSelectedSauces(parseInt(s.target.value));
-                }}
+                onChange={(e) => setSelectedSauces(Number(e.target.value))}
               >
                 <option value={0}>Choose Sauce</option>
                 {sauces.map((sauce) => (
@@ -270,29 +267,55 @@ export const CreateOrder = () => {
             </div>
           </fieldset>
 
-          <fieldset className="delivery-section">
-            <label>
-              <input
-                type="checkbox"
-                checked={isDeliveryBtn}
-                onChange={() => setIsDeliveryBtn(!isDeliveryBtn)}
-              />
-              <span>Delivery</span>
-            </label>
+          <div className="delivery-section">
+          <label>
+            <input
+              type="checkbox"
+              checked={isDeliveryBtn}
+              onChange={() => setIsDeliveryBtn(!isDeliveryBtn)}
+            />
+            <span>Delivery</span>
+          </label>
+          {isDeliveryBtn ? (
+            <input
+              type="text"
+              value={deliveryAddress}
+              onChange={(e) => setDeliveryAddress(e.target.value)}
+              placeholder="Enter delivery address"
+              required
+            />
+          ) : (
+            <select
+              value={tableNumber}
+              onChange={(e) => setTableNumber(e.target.value)}
+              required={!isDeliveryBtn}
+            >
+              <option value="">Select Table Number</option>
+              {[...Array(25).keys()].map((num) => (
+                <option key={num + 1} value={num + 1}>
+                  Table {num + 1}
+                </option>
+              ))}
+            </select>
+          )}
+        </div>
 
-            {isDeliveryBtn && (
-              <div>
-                <label>Address : </label>
-                <input
-                  type="text"
-                  value={deliveryAddress}
-                  onChange={(e) => setDeliveryAddress(e.target.value)}
-                  placeholder="Enter delivery address"
-                  required
-                />
-              </div>
-            )}
-          </fieldset>
+        <div className="customer-info">
+          <input
+            type="text"
+            value={customerName}
+            onChange={(e) => setCustomerName(e.target.value)}
+            placeholder="Customer Name"
+            required
+          />
+          <input
+            type="text"
+            value={phoneNumber}
+            onChange={(e) => setPhoneNumber(e.target.value)}
+            placeholder="Phone Number"
+            required
+          />
+        </div>
         </div>
 
         <div className="cart-section">
@@ -301,7 +324,7 @@ export const CreateOrder = () => {
             {currentCartPreview.length > 0
               ? currentCartPreview.map((item) => (
                   <div key={item.id} className="cart-item">
-                    {item.size} Pizza
+                    {item.size} Pizza with {item.cheese}, {item.sauce}, toppings: {item.toppings}
                   </div>
                 ))
               : "Cart is currently Empty"}
