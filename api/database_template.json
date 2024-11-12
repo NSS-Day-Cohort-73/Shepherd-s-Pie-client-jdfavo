@@ -1,0 +1,280 @@
+{
+  "pizzas": [
+    {
+      "id": 1,
+      "size": "small",
+      "diameter": "10",
+      "price": 10
+    },
+    {
+      "id": 2,
+      "size": "medium",
+      "diameter": "14",
+      "price": 12
+    },
+    {
+      "id": 3,
+      "size": "large",
+      "diameter": "18",
+      "price": 15
+    }
+  ],
+  "cheeseOptions": [
+    {
+      "id": 1,
+      "name": "Buffalo Mozzarella"
+    },
+    {
+      "id": 2,
+      "name": "Four Cheese"
+    },
+    {
+      "id": 3,
+      "name": "Vegan"
+    },
+    {
+      "id": 4,
+      "name": "None (cheeseless)"
+    }
+  ],
+  "sauceOptions": [
+    {
+      "id": 1,
+      "name": "Marinara"
+    },
+    {
+      "id": 2,
+      "name": "Arrabbiata"
+    },
+    {
+      "id": 3,
+      "name": "Garlic White"
+    },
+    {
+      "id": 4,
+      "name": "None (sauceless pizza)"
+    }
+  ],
+  "toppings": [
+    {
+      "id": 1,
+      "name": "sausage",
+      "price": 0.5
+    },
+    {
+      "id": 2,
+      "name": "pepperoni",
+      "price": 0.5
+    },
+    {
+      "id": 3,
+      "name": "mushroom",
+      "price": 0.5
+    },
+    {
+      "id": 4,
+      "name": "onion",
+      "price": 0.5
+    },
+    {
+      "id": 5,
+      "name": "green pepper",
+      "price": 0.5
+    },
+    {
+      "id": 6,
+      "name": "black olive",
+      "price": 0.5
+    },
+    {
+      "id": 7,
+      "name": "basil",
+      "price": 0.5
+    },
+    {
+      "id": 8,
+      "name": "extra cheese",
+      "price": 0.5
+    }
+  ],
+  "deliverySurcharge": [
+    {
+      "amount": 10,
+      "currency": "USD"
+    }
+  ],
+  "orders": [
+    {
+      "id": 1,
+      "customerName": "John Smith",
+      "phoneNumber": "555-0101",
+      "isDelivery": true,
+      "deliveryAddress": "123 Main St, Apt 4B",
+      "orderDate": "2024-11-05T12:30:00",
+      "userId": 1,
+      "items": [
+        {
+          "id": 1,
+          "size": "large",
+          "cheese": "Buffalo Mozzarella",
+          "sauce": "Marinara",
+          "toppings": [2, 3, 8],
+          "basePrice": 15,
+          "toppingsPrice": 1.5,
+          "totalPrice": 16.5
+        },
+        {
+          "id": 2,
+          "size": "medium",
+          "cheese": "Four Cheese",
+          "sauce": "Garlic White",
+          "toppings": [1, 4, 5],
+          "basePrice": 12,
+          "toppingsPrice": 1.5,
+          "totalPrice": 13.5
+        }
+      ],
+      "subtotal": 30,
+      "deliveryFee": 5,
+      "total": 35
+    },
+    {
+      "id": 2,
+      "customerName": "Sarah Johnson",
+      "phoneNumber": "555-0102",
+      "isDelivery": false,
+      "tableNumber": 4,
+      "orderDate": "2024-11-05T13:15:00",
+      "userId": 2,
+      "items": [
+        {
+          "id": 3,
+          "size": "small",
+          "cheese": "Vegan",
+          "sauce": "Marinara",
+          "toppings": [3, 5, 6, 7],
+          "basePrice": 10,
+          "toppingsPrice": 2,
+          "totalPrice": 12
+        }
+      ],
+      "subtotal": 12,
+      "total": 12
+    },
+    {
+      "id": 3,
+      "customerName": "Maria Garcia",
+      "phoneNumber": "555-0103",
+      "isDelivery": true,
+      "deliveryAddress": "789 Oak Road",
+      "orderDate": "2024-11-05T14:00:00",
+      "userId": 3,
+      "items": [
+        {
+          "id": 4,
+          "size": "large",
+          "cheese": "Buffalo Mozzarella",
+          "sauce": "Arrabbiata",
+          "toppings": [1, 4, 7],
+          "basePrice": 15,
+          "toppingsPrice": 1.5,
+          "totalPrice": 16.5
+        },
+        {
+          "id": 5,
+          "size": "small",
+          "cheese": "Four Cheese",
+          "sauce": "Marinara",
+          "toppings": [2, 8],
+          "basePrice": 10,
+          "toppingsPrice": 1,
+          "totalPrice": 11
+        }
+      ],
+      "subtotal": 27.5,
+      "deliveryFee": 5,
+      "total": 32.5
+    },
+    {
+      "id": 4,
+      "customerName": "David Wilson",
+      "phoneNumber": "555-0104",
+      "isDelivery": false,
+      "tableNumber": 7,
+      "orderDate": "2024-11-05T14:45:00",
+      "userId": 4,
+      "items": [
+        {
+          "id": 6,
+          "size": "medium",
+          "cheese": "Four Cheese",
+          "sauce": "Garlic White",
+          "toppings": [3, 6, 7, 8],
+          "basePrice": 12,
+          "toppingsPrice": 2,
+          "totalPrice": 14
+        }
+      ],
+      "subtotal": 14,
+      "total": 14
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "name": "Charlie McCrust",
+      "address": "123 Pizza Blvd, Cheezy Town, CA 90001",
+      "email": "cheesy@pizzamail.com",
+      "phone": "555-555-1234",
+      "isAdmin": true
+    },
+    {
+      "id": 2,
+      "name": "Susie Pie",
+      "address": "456 Sauce St, Tomato City, TX 75001",
+      "phone": "555-555-5677",
+      "email": "saucy@pizzamail.com",
+      "isAdmin": false
+    },
+    {
+      "id": 3,
+      "name": "Pepperoni Pete",
+      "address": "789 Pepperoni Ave, Meatyville, FL 33001",
+      "email": "pepperoni@pizzamail.com",
+      "phone": "555-555-2345",
+      "isAdmin": false
+    },
+    {
+      "id": 4,
+      "name": "Olivia Olives",
+      "address": "101 Olive Ln, Veggie Town, NY 10001",
+      "email": "olivia@pizzamail.com",
+      "phone": "555-555-6789",
+      "isAdmin": false
+    },
+    {
+      "id": 5,
+      "name": "Margarita Mia",
+      "address": "202 Margarita Dr, Thin Crust, IL 60001",
+      "email": "margarita@pizzamail.com",
+      "phone": "555-555-3456",
+      "isAdmin": false
+    },
+    {
+      "id": 6,
+      "name": "Tomato Tony",
+      "address": "303 Tomato Rd, Sauceville, NV 89501",
+      "email": "tomato@pizzamail.com",
+      "phone": "555-555-7890",
+      "isAdmin": true
+    },
+    {
+      "id": 7,
+      "name": "Crusty Carl",
+      "address": "505 Crust Ln, Dough Town, CO 80201",
+      "email": "crusty@pizzamail.com",
+      "phone": "555-555-2346",
+      "isAdmin": false
+    }
+  ]
+}
